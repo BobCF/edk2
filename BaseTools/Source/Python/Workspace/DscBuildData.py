@@ -21,7 +21,6 @@ from Common.Expression import *
 from CommonDataClass.CommonClass import SkuInfoClass
 from Common.TargetTxtClassObject import TargetTxt
 from Common.ToolDefClassObject import ToolDef
-from .MetaDataTable import *
 from .MetaFileTable import *
 from .MetaFileParser import *
 

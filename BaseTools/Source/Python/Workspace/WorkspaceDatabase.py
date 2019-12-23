@@ -15,10 +15,9 @@ from Common.DataType import *
 from Common.Misc import *
 from types import *
 
-from .MetaDataTable import *
 from .MetaFileTable import *
 from .MetaFileParser import *
-
+from CommonDataClass.DataClass import MODEL_LIST
 from Workspace.DecBuildData import DecBuildData
 from Workspace.DscBuildData import DscBuildData
 from Workspace.InfBuildData import InfBuildData
@@ -150,7 +149,7 @@ class WorkspaceDatabase(object):
     def __init__(self):
         self.DB = dict()
         # create table for internal uses
-        self.TblDataModel = DataClass.MODEL_LIST
+        self.TblDataModel = MODEL_LIST
         self.TblFile = []
         self.Platform = None
 
