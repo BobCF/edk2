@@ -7,9 +7,9 @@ from Common.MultipleWorkspace import MultipleWorkspace as mws
 import os
 
 
-def TestDscParser(dsc_path):
-    dsc_parser = DscParser(PathClass(dsc_path,r"D:\BobEdk2\edk2"),MODEL_FILE_DSC,"IA32",
-                                MetaFileStorage(PathClass(dsc_path,r"D:\BobEdk2\edk2"), MODEL_FILE_DSC))
+def TestDscParser(dsc_path,WorkspaceDir):
+    dsc_parser = DscParser(PathClass(dsc_path,WorkspaceDir),MODEL_FILE_DSC,"IA32",
+                                MetaFileStorage(PathClass(dsc_path,WorkspaceDir), MODEL_FILE_DSC))
     
     '''
         ['OvmfPkg/ResetVector/ResetVector.inf', '', '', 'COMMON', 'COMMON', 'COMMON', 474, 584]
@@ -61,9 +61,9 @@ def TestDscParser(dsc_path):
     for item in dsc_parser[MODEL_META_DATA_BUILD_OPTION]:
         print(item)
 
-def TestInfParser(inf_path):
-    inf_parser = InfParser(PathClass(inf_path,r"D:\BobEdk2\edk2"),MODEL_FILE_INF,"IA32",
-                                MetaFileStorage(PathClass(inf_path,r"D:\BobEdk2\edk2"), MODEL_FILE_INF))
+def TestInfParser(inf_path,WorkspaceDir):
+    inf_parser = InfParser(PathClass(inf_path,WorkspaceDir),MODEL_FILE_INF,"IA32",
+                                MetaFileStorage(PathClass(inf_path,WorkspaceDir), MODEL_FILE_INF))
     for item in inf_parser[MODEL_META_DATA_HEADER]:
         print(item)
 
@@ -100,9 +100,9 @@ def TestInfParser(inf_path):
     for item in inf_parser[MODEL_EFI_DEPEX]:
         print(item)
 
-def TestDecParser(dec_path):
-    inf_parser = DecParser(PathClass(dec_path,r"D:\BobEdk2\edk2"),MODEL_FILE_INF,"IA32",
-                                MetaFileStorage(PathClass(dec_path,r"D:\BobEdk2\edk2"), MODEL_FILE_INF))
+def TestDecParser(dec_path,WorkspaceDir):
+    inf_parser = DecParser(PathClass(dec_path,WorkspaceDir),MODEL_FILE_INF,"IA32",
+                                MetaFileStorage(PathClass(dec_path,WorkspaceDir), MODEL_FILE_INF))
     for item in inf_parser[MODEL_META_DATA_HEADER]:
         print(item)
 
@@ -125,7 +125,7 @@ def TestDecParser(dec_path):
         print(item)
 
 if __name__ == "__main__":
-    WorkspaceDir = r"D:\BobEdk2\edk2"
+    WorkspaceDir = r"C:\BobFeng\ToolDev\EDKIITrunk\BobEdk2\edk2"
     GlobalData.gGlobalDefines['WORKSPACE'] = WorkspaceDir
     GlobalData.gWorkspace = WorkspaceDir
     PackagesPath = os.getenv("PACKAGES_PATH")
@@ -133,4 +133,4 @@ if __name__ == "__main__":
     dsc_path = r"OvmfPkg\OvmfPkgIa32.dsc"
     inf_path = r"OvmfPkg\Sec\SecMain.inf"
     dec_path = r"OvmfPkg\OvmfPkg.dec"
-    TestDscParser(dsc_path)
+    TestDscParser(dsc_path,WorkspaceDir)
