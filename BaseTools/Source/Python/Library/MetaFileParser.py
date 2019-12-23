@@ -139,6 +139,9 @@ class MetaFileParser(object):
             Class.MetaFiles[FilePath] = ParserObject
             return ParserObject
 
+    def GetTableID(self):
+        return (10**7)
+
     ## Constructor of MetaFileParser
     #
     #  Initialize object of MetaFileParser
@@ -151,6 +154,7 @@ class MetaFileParser(object):
     #   @param      From            ID from which the data comes (for !INCLUDE directive)
     #
     def __init__(self, FilePath, FileType, Arch, Table, Owner= -1, From= -1):
+        Table.ID = self.GetTableID()
         self._Table = Table
         self._RawTable = Table
         self._Arch = Arch
@@ -948,6 +952,8 @@ class DscParser(MetaFileParser):
 
         self._Content = None
 
+    def GetTableID(self):
+        return (len(self.IncludedFiles) + 1) * (10**7)
     ## Parser starter
     def Start(self):
         Content = ''
@@ -1630,10 +1636,11 @@ class DscParser(MetaFileParser):
                 else:
                     Owner = self._Content[self._ContentIndex - 1][0]
                 IncludedFileTable = MetaFileStorage(IncludedFile1, MODEL_FILE_DSC, False, FromItem=FromItem)
+                self.IncludedFiles.add (IncludedFile1)
                 Parser = DscParser(IncludedFile1, self._FileType, self._Arch, IncludedFileTable,
                                    Owner=Owner, From=FromItem)
 
-                self.IncludedFiles.add (IncludedFile1)
+                
 
                 # set the parser status with current status
                 Parser._SectionName = self._SectionName
