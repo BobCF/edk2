@@ -14,10 +14,12 @@ import sys
 import string
 import re
 import os.path as path
+import uuid
 from Common.LongFilePathSupport import OpenLongFilePath as open
 from Common.MultipleWorkspace import MultipleWorkspace as mws
 from Common.BuildToolError import *
 from Common.Misc import *
+from Common.ninja_syntax import *
 from Common.StringUtils import *
 from .BuildEngine import *
 import Common.GlobalData as GlobalData
@@ -243,6 +245,26 @@ class BuildFile(object):
                     Path = "$(%s)%s" % (MacroName, Path[MacroValueLength:])
                     break
             return Path
+    def ReplaceMacroValStr(self, Path, MacroDefinitions=None):
+        if MacroDefinitions is None:
+            MacroDefinitions = {}
+        s = Path.replace('(', '{').replace(')', '}')
+        s1 = TemplateString(s).Replace(MacroDefinitions)
+        s2 = s1.replace('{', '(').replace('}', ')')
+        return s2
+    def ReplaceMacroValList(self, Paths, MacroDefinitions=None):
+        ret = []
+        for p in Paths:
+            if "$(" not in p:
+                ret.append(p)
+            else:
+                if MacroDefinitions is None:
+                    MacroDefinitions = {}
+                s = p.replace('(', '{').replace(')', '}')
+                s1 = TemplateString(s).Replace(MacroDefinitions)
+                s2 = s1.replace('{', '(').replace('}', ')')
+                ret.append(s2)
+        return ret
 
 ## ModuleMakefile class
 #
@@ -471,7 +493,88 @@ cleanlib:
         self.MacroList = ['FFS_OUTPUT_DIR', 'MODULE_GUID', 'OUTPUT_DIR']
         self.FfsOutputFileList = []
         self.DependencyHeaderFileSet = set()
+        self.NinjaBuildList = []
+        self.NinjaMacros = {}
 
+    def AddNinjaBuildStat(self, Target, Deps, Cmds):
+        d = {}
+        d["target"] = Target
+        if isinstance(Cmds, list):
+            d["cmd"] = list(Cmds)
+        else:
+            d["cmd"] = [Cmds]
+        if isinstance(Deps, list):
+            d["dep"] = list(Deps)
+        else:
+            d["dep"] = Deps.split()
+        if "$(MAKE_FILE)" in d["dep"]:
+            d["dep"].remove("$(MAKE_FILE)")
+        self.NinjaBuildList.append(d)
+    def WriteNinjaFile(self):
+        self.NinjaMacros.update(self.Macros)
+        Macros = {}
+        for K in self.NinjaMacros.keys():
+            V = self.NinjaMacros[K]
+            if "$(" not in V:
+                Macros[K] = V.replace("\\\n","")
+                Macros[K] = Macros[K].replace("    ", " ")
+        for K in self.NinjaMacros.keys():
+            V = self.NinjaMacros[K]
+            if "$(" in V:
+                Macros[K] = self.ReplaceMacroValStr(V, Macros).replace("\\\n", "")
+                Macros[K] = Macros[K].replace("    ", " ")
+        i = 0
+        with GlobalData.file_lock:
+            PlatformBuildDir = self._AutoGenObject.PlatformInfo.BuildDir
+            n = Writer(open(os.path.join(self._AutoGenObject.PlatformInfo.BuildDir, "build.ninja"), 'a+'))
+            n.comment("%s" % self._AutoGenObject.MetaFile)
+            for b in self.NinjaBuildList:
+                RuleName = "rule" +  str(i) + "_" + str(uuid.uuid4())
+                CmdList = self.ReplaceMacroValList(b["cmd"], Macros)
+                CmdStr = "cmd /C \""
+                if len(CmdList) > 1:
+                    CmdStr = CmdStr + CmdList[0]
+                    for c in CmdList[1:-1]:
+                        CmdStr = CmdStr + " && " + c
+                    CmdStr = CmdStr + " && " +  CmdList[-1] + "\""
+                else:
+                    CmdStr = CmdStr + ''.join(CmdList) + "\""
+                RuleDeps = None
+                if "cl.exe" in CmdStr:
+                    RuleDeps = "msvc"
+                CmdStr = re.sub("\$\([^)]*\)", "" , CmdStr)
+                n.rule(RuleName, command=CmdStr, deps=RuleDeps, description="Building $out")
+                n.newline()
+                Target = self.ReplaceMacroValStr(b["target"], Macros)
+                DepStr = ' '
+                Ret = self.ReplaceMacroValList(b["dep"], Macros)
+                for j in Ret:
+                    DepStr = DepStr + ' ' + j
+                    DepList = DepStr.split()
+                if Target.endswith(".lib"):
+                    Ret = []
+                    ObjListStr = ""
+                    for k in Macros.keys():
+                        if str(k).startswith("OBJLIST_"):
+                            Ret.append(os.path.join("$(OUTPUT_DIR)", k))
+                            ObjListStr = ObjListStr + " " + Macros[k]
+                    for d in DepList:
+                        if d not in ObjListStr:
+                            Ret.append(d)
+                    DepList = self.ReplaceMacroValList(Ret, Macros)
+                n.build(Target, RuleName, DepList)
+                n.newline()
+                n.newline()
+                i = i+1
+            if not self._AutoGenObject.IsLibrary:
+                FinalTargets = []
+                Ret = self.ReplaceMacroValList(self.ResultFileList, Macros)
+                for j in Ret:
+                    if not j.endswith(".map"):
+                        FinalTargets.append(j)
+                n.default(FinalTargets)
+                n.newline()
+            n.close()
     # Compose a dict object containing information used to do replacement in template
     @property
     def _TemplateDict(self):
@@ -715,6 +818,20 @@ cleanlib:
                                                               ])
         }
 
+        for k in MakefileTemplateDict.keys():
+            if k in ["platform_name", "platform_guid", "platform_version", "module_name", "module_guid", "module_name_guid", "module_version", "module_type", "module_file", "module_file_base_name", "module_dir", "module_entry_point", "image_entry_point", "arch_entry_point"]:
+                self.NinjaMacros[k.upper()] = MakefileTemplateDict[k]
+        for k in ["CP", "MV", "RM", "MD", "RD"]:
+            self.NinjaMacros[k] = self._SHELL_CMD_[self._Platform][k]
+        for Str in ToolsDef + FileMacroList:
+            if Str != '' and '=' in Str:
+                Index = Str.index('=')
+                K = Str[0:Index]
+                V = Str[Index+1:]
+                self.NinjaMacros[K.strip()] = V.strip()
+        self.NinjaMacros["FFS_OUTPUT_DIR"] = MyAgo.Macros["FFS_OUTPUT_DIR"]
+        self.NinjaMacros["DLINK_SPATH"] = " "
+        self.WriteNinjaFile()
         return MakefileTemplateDict
 
     def ParserGenerateFfsCmd(self):
@@ -733,6 +850,10 @@ cleanlib:
                     if '%s :' %(Dst) not in self.BuildTargetList:
                         self.BuildTargetList.append("%s : %s" %(Dst,Src))
                         self.BuildTargetList.append('\t' + self._CP_TEMPLATE_[self._Platform] %{'Src': Src, 'Dst': Dst})
+                    Deps = ''
+                    if Dst.endswith('.map') or Dst.endswith('.efi'):
+                        Deps = '$(OUTPUT_DIR)\\$(MODULE_NAME).efi'
+                    self.AddNinjaBuildStat(Dst, Deps, self._CP_TEMPLATE_[self._Platform] %{'Src': Src, 'Dst': Dst})
 
             FfsCmdList = Cmd[0]
             for index, Str in enumerate(FfsCmdList):
@@ -753,11 +874,13 @@ cleanlib:
             CmdString = ' '.join(FfsCmdList).strip()
             CmdString = self.ReplaceMacro(CmdString)
             self.BuildTargetList.append('\t%s' % CmdString)
+            self.AddNinjaBuildStat(OutputFile, DepsFileString, CmdString)
 
             self.ParseSecCmd(DepsFileList, Cmd[1])
             for SecOutputFile, SecDepsFile, SecCmd in self.FfsOutputFileList :
                 self.BuildTargetList.append('%s : %s' % (self.ReplaceMacro(SecOutputFile), self.ReplaceMacro(SecDepsFile)))
                 self.BuildTargetList.append('\t%s' % self.ReplaceMacro(SecCmd))
+                self.AddNinjaBuildStat(self.ReplaceMacro(SecOutputFile) , self.ReplaceMacro(SecDepsFile).replace("DEBUG_DIR", "OUTPUT_DIR"), self.ReplaceMacro(SecCmd))
             self.FfsOutputFileList = []
 
     def ParseSecCmd(self, OutputFileList, CmdTuple):
@@ -1049,10 +1172,20 @@ cleanlib:
                     if T.Commands:
                         CmdLine = '%s%s' %(CmdLine, TAB_LINE_BREAK)
                     if CCodeDeps or CmdLine:
+                        l = CmdLine.split(": ")
+                        s =  l[1].replace("\\\n\t", " ")
+                        l1 = s.split("\n\t")
+                        target = os.path.join("$(OUTPUT_DIR)", l[0].strip().replace("$(","").replace(")",""))
+                        deps = l1[0].strip()
+                        cmds = []
+                        cmds.append(l1[1].strip())
+                        cmds.append("echo > %s" % target)
+                        self.AddNinjaBuildStat(target, deps, cmds)
                         self.BuildTargetList.append(CmdLine)
                 else:
                     TargetDict = {"target": self.PlaceMacro(T.Target.Path, self.Macros), "cmd": "\n\t".join(T.Commands),"deps": Deps}
                     self.BuildTargetList.append(self._BUILD_TARGET_TEMPLATE.Replace(TargetDict))
+                    self.AddNinjaBuildStat(self.PlaceMacro(T.Target.Path, self.Macros), Deps, T.Commands)
 
     def ParserCCodeFile(self, T, Type, CmdSumDict, CmdTargetDict, CmdCppDict, DependencyDict):
         if not CmdSumDict:
@@ -1752,5 +1885,15 @@ def GetDependencyList(AutoGenObject, FileCache, File, ForceList, SearchPathList)
     return DependencyList
 
 # This acts like the main() function for the script, unless it is 'import'ed into another script.
+def ReplaceMacro2(Paths, MacroDefinitions=None):
+    ret = []
+    for p in Paths:
+        if "$(" not in p:
+            ret.append(p)
+        else:
+            s = p.replace('(', '{').replace(')', '}')
+            s1 = TemplateString(s).Replace(MacroDefinitions)
+            ret.append(s1)
+    return ret
 if __name__ == '__main__':
     pass

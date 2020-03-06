@@ -69,7 +69,7 @@ class MyOptionParser():
         Parser.add_option("-e", "--re-parse", action="store_true", dest="Reparse", help="Re-parse all meta-data files.")
 
         Parser.add_option("-c", "--case-insensitive", action="store_true", dest="CaseInsensitive", default=False, help="Don't check case of file name.")
-
+        Parser.add_option("--ninja", action="store_true", dest="NinjaBuild", help="Use Ninja to build")
         Parser.add_option("-w", "--warning-as-error", action="store_true", dest="WarningAsError", help="Treat warning in tools as error.")
         Parser.add_option("-j", "--log", action="store", dest="LogFile", help="Put log in specified file as well as on console.")
 

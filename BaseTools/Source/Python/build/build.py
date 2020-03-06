@@ -725,6 +725,7 @@ class Build():
         self.FvList         = BuildOptions.FvImage
         self.CapList        = BuildOptions.CapName
         self.SilentMode     = BuildOptions.SilentMode
+        self.NinjaBuild     = BuildOptions.NinjaBuild
         self.ThreadNumber   = 1
         self.SkipAutoGen    = BuildOptions.SkipAutoGen
         self.Reparse        = BuildOptions.Reparse
@@ -2236,38 +2237,41 @@ class Build():
                     EdkLogger.quiet("[cache Summary]: Total module num: %s" % len(self.AllModules))
                     EdkLogger.quiet("[cache Summary]: PreMakecache miss num: %s " % len(self.PreMakeCacheMiss))
                     EdkLogger.quiet("[cache Summary]: Makecache miss num: %s " % len(self.MakeCacheMiss))
-
-                for Arch in Wa.ArchList:
-                    MakeStart = time.time()
-                    for Ma in set(self.BuildModules):
-                        # Generate build task for the module
-                        if not Ma.IsBinaryModule:
-                            Bt = BuildTask.New(ModuleMakeUnit(Ma, Pa.BuildCommand,self.Target))
-                        # Break build if any build thread has error
+                if self.NinjaBuild:
+                    LaunchCommand(["ninja", "-f", "%s" %  os.path.join(Pa.BuildDir, "build.ninja")], self.WorkspaceDir)
+                else:
+                    for Arch in Wa.ArchList:
+                        MakeStart = time.time()
+                        for Ma in set(self.BuildModules):
+                            # Generate build task for the module
+                            if not Ma.IsBinaryModule:
+                                Bt = BuildTask.New(ModuleMakeUnit(Ma, Pa.BuildCommand,self.Target))
+                            # Break build if any build thread has error
+                            if BuildTask.HasError():
+                                # we need a full version of makefile for platform
+                                ExitFlag.set()
+                                BuildTask.WaitForComplete()
+                                Pa.CreateMakeFile(False)
+                                EdkLogger.error("build", BUILD_ERROR, "Failed to build module", ExtraData=GlobalData.gBuildingModule)
+                            # Start task scheduler
+                            if not BuildTask.IsOnGoing():
+                                BuildTask.StartScheduler(self.ThreadNumber, ExitFlag)
+    
+                        # in case there's an interruption. we need a full version of makefile for platform
+    
                         if BuildTask.HasError():
-                            # we need a full version of makefile for platform
-                            ExitFlag.set()
-                            BuildTask.WaitForComplete()
-                            Pa.CreateMakeFile(False)
                             EdkLogger.error("build", BUILD_ERROR, "Failed to build module", ExtraData=GlobalData.gBuildingModule)
-                        # Start task scheduler
-                        if not BuildTask.IsOnGoing():
-                            BuildTask.StartScheduler(self.ThreadNumber, ExitFlag)
-
-                    # in case there's an interruption. we need a full version of makefile for platform
-
-                    if BuildTask.HasError():
-                        EdkLogger.error("build", BUILD_ERROR, "Failed to build module", ExtraData=GlobalData.gBuildingModule)
-                    self.MakeTime += int(round((time.time() - MakeStart)))
-
+                        self.MakeTime += int(round((time.time() - MakeStart)))
+    
+                
+                    #
+                    #
+                    # All modules have been put in build tasks queue. Tell task scheduler
+                    # to exit if all tasks are completed
+                    #
+                    ExitFlag.set()
+                    BuildTask.WaitForComplete()
                 MakeContiue = time.time()
-                #
-                #
-                # All modules have been put in build tasks queue. Tell task scheduler
-                # to exit if all tasks are completed
-                #
-                ExitFlag.set()
-                BuildTask.WaitForComplete()
                 self.CreateAsBuiltInf()
                 if GlobalData.gBinCacheDest:
                     self.GenDestCache()
