@@ -1,0 +1,3 @@
+D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\build.ninja:
+    D$:\BobEdk2\edk2\OvmfPkg\OvmfPkgIa32.dsc
+    D$:\BobEdk2\edk2\OvmfPkg\OvmfPkgIa32.fdf

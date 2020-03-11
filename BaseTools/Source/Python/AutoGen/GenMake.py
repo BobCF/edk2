@@ -525,7 +525,6 @@ cleanlib:
                 Macros[K] = Macros[K].replace("    ", " ")
         i = 0
         with GlobalData.file_lock:
-            PlatformBuildDir = self._AutoGenObject.PlatformInfo.BuildDir
             n = Writer(open(os.path.join(self._AutoGenObject.PlatformInfo.BuildDir, "build.ninja"), 'a+'))
             n.comment("%s" % self._AutoGenObject.MetaFile)
             for b in self.NinjaBuildList:

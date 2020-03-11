@@ -1,0 +1,16 @@
+rule genninja
+    command = cmd /c "del D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\build.ninja & build genmake -p OvmfPkg\OvmfPkgIa32.dsc -a IA32 -t VS2015x86 --ninja" 
+    description = "Generate build.ninja"
+    depfile = metafile.list
+
+build D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\build.ninja: genninja
+
+rule buildplatform
+    command = cmd /c "ninja -f D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\build.ninja" 
+    description = "build platform"
+
+build D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\FV\Ovmf.fd: buildplatform D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\build.ninja
+
+build default: phony D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\FV\Ovmf.fd D$:\BobEdk2\edk2\Build\OvmfIa32\DEBUG_VS2015x86\build.ninja
+
+
