@@ -21,7 +21,7 @@ from Common.DataType import *
 ## generate compress section
 #
 #
-class CompressSection (CompressSectionClassObject) :
+class CompressSection :
 
     ## compress types: PI standard and non PI standard
     CompTypeDict = {
@@ -33,8 +33,11 @@ class CompressSection (CompressSectionClassObject) :
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        CompressSectionClassObject.__init__(self)
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenSection() method
     #

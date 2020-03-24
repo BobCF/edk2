@@ -22,14 +22,17 @@ from Common.DataType import *
 ## generate UI section
 #
 #
-class UiSection (UiSectionClassObject):
+class UiSection:
 
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        UiSectionClassObject.__init__(self)
+    def __init__(self, data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenSection() method
     #

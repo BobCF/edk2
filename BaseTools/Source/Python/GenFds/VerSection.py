@@ -20,14 +20,17 @@ from Common.DataType import SUP_MODULE_SEC
 ## generate version section
 #
 #
-class VerSection (VerSectionClassObject):
+class VerSection:
 
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        VerSectionClassObject.__init__(self)
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenSection() method
     #

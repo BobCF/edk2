@@ -21,6 +21,7 @@ from Common.BuildToolError import *
 from Common.LongFilePathSupport import OpenLongFilePath as open
 from Common.MultipleWorkspace import MultipleWorkspace as mws
 from Common.DataType import BINARY_FILE_TYPE_FV
+from CommonDataClass.FdfClass import RegionData
 
 ## generate Region
 #
@@ -31,14 +32,11 @@ class Region(object):
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        self.Offset = None       # The begin position of the Region
-        self.Size = None         # The Size of the Region
-        self.PcdOffset = None
-        self.PcdSize = None
-        self.SetVarDict = {}
-        self.RegionType = None
-        self.RegionDataList = []
+    def __init__(self,region_data):
+        self.region_data = region_data
+    
+    def __getattr__(self,item):
+        return self.region_data.__dict__[item]
 
     ## PadBuffer()
     #

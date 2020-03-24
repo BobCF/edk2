@@ -32,10 +32,11 @@ class AprioriSection (object):
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        self.DefineVarDict = {}
-        self.FfsList = []
-        self.AprioriType = ""
+    def __init__(self, data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenFfs() method
     #

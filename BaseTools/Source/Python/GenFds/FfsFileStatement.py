@@ -25,18 +25,16 @@ from .GenFdsGlobalVariable import GenFdsGlobalVariable
 ## generate FFS from FILE
 #
 #
-class FileStatement (FileStatementClassObject):
+class FileStatement:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        FileStatementClassObject.__init__(self)
-        self.CurrentLineNum = None
-        self.CurrentLineContent = None
-        self.FileName = None
-        self.InfFileName = None
-        self.SubAlignment = None
+    def __init__(self, data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenFfs() method
     #

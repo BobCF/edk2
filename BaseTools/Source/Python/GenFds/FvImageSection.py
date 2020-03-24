@@ -25,14 +25,17 @@ from Common.DataType import *
 ## generate FV image section
 #
 #
-class FvImageSection(FvImageSectionClassObject):
+class FvImageSection:
 
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        FvImageSectionClassObject.__init__(self)
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenSection() method
     #

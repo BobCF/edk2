@@ -11,7 +11,7 @@
 #
 from __future__ import absolute_import
 from .GenFdsGlobalVariable import GenFdsGlobalVariable, FindExtendTool
-from CommonDataClass.FdfClass import CapsuleClassObject
+from CommonDataClass.FdfClass import EFI_CERT_TYPE_PKCS7_GUID
 import Common.LongFilePathOs as os
 from io import BytesIO
 from Common.Misc import SaveFileOnChange, PackGUID
@@ -20,27 +20,25 @@ from struct import pack
 from Common import EdkLogger
 from Common.BuildToolError import GENFDS_ERROR
 from Common.DataType import TAB_LINE_BREAK
+from 
 
 WIN_CERT_REVISION = 0x0200
 WIN_CERT_TYPE_EFI_GUID = 0x0EF1
-EFI_CERT_TYPE_PKCS7_GUID = uuid.UUID('{4aafd29d-68df-49ee-8aa9-347d375665a7}')
-EFI_CERT_TYPE_RSA2048_SHA256_GUID = uuid.UUID('{a7717414-c616-4977-9420-844712a735bf}')
 
 ## create inf file describes what goes into capsule and call GenFv to generate capsule
 #
 #
-class Capsule (CapsuleClassObject):
+class Capsule:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        CapsuleClassObject.__init__(self)
-        # For GenFv
-        self.BlockSize = None
-        # For GenFv
-        self.BlockNum = None
-        self.CapsuleName = None
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
+       
 
     ## Generate FMP capsule
     #

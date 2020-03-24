@@ -21,10 +21,11 @@ class OptRomFileStatement:
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        self.FileName = None
-        self.FileType = None
-        self.OverrideAttribs = None
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenFfs() method
     #

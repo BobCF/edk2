@@ -49,29 +49,16 @@ from Common.DataType import *
 ## generate FFS from INF
 #
 #
-class FfsInfStatement(FfsInfStatementClassObject):
+class FfsInfStatement(object):
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        FfsInfStatementClassObject.__init__(self)
-        self.TargetOverrideList = []
-        self.ShadowFromInfFile = None
-        self.KeepRelocFromRule = None
-        self.InDsc = True
-        self.OptRomDefs = {}
-        self.PiSpecVersion = '0x00000000'
-        self.InfModule = None
-        self.FinalTargetSuffixMap = {}
-        self.CurrentLineNum = None
-        self.CurrentLineContent = None
-        self.FileName = None
-        self.InfFileName = None
-        self.OverrideGuid = None
-        self.PatchedBinFile = ''
-        self.MacroDict = {}
-        self.Depex = False
+    def __init__(self, data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GetFinalTargetSuffixMap() method
     #

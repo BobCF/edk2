@@ -26,13 +26,16 @@ from Common.DataType import BINARY_FILE_TYPE_FV
 ## generate FD
 #
 #
-class FD(FDClassObject):
+class FD():
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        FDClassObject.__init__(self)
+    def __init__(self, FdData):
+        self.fd_data = FdData
+    
+    def __getattr__(self,item):
+        return self.fd_data.__dict__[item]
 
     ## GenFd() method
     #

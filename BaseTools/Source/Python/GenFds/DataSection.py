@@ -23,13 +23,16 @@ from Common.DataType import *
 ## generate data section
 #
 #
-class DataSection (DataSectionClassObject):
+class DataSection:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        DataSectionClassObject.__init__(self)
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenSection() method
     #

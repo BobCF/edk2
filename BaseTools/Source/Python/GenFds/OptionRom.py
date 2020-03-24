@@ -28,9 +28,11 @@ class OPTIONROM (OptionRomClassObject):
     #
     #   @param  self        The object pointer
     #
-    def __init__(self, Name = ""):
-        OptionRomClassObject.__init__(self)
-        self.DriverName = Name
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## AddToBuffer()
     #

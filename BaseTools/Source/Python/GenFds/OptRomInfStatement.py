@@ -10,8 +10,6 @@
 # Import Modules
 #
 from __future__ import absolute_import
-from . import RuleSimpleFile
-from . import RuleComplexFile
 from . import Section
 import Common.GlobalData as GlobalData
 
@@ -19,7 +17,9 @@ from Common.DataType import *
 from Common.StringUtils import *
 from .FfsInfStatement import FfsInfStatement
 from .GenFdsGlobalVariable import GenFdsGlobalVariable
-
+from CommonDataClass.FdfClass import RuleComplexFileClassObject
+from CommonDataClass.FdfClass import RuleSimpleFileClassObject
+from CommonDataClass.FdfClass import OptRomInfStatementOverrideAttribs
 ##
 #
 #
@@ -28,9 +28,9 @@ class OptRomInfStatement (FfsInfStatement):
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        FfsInfStatement.__init__(self)
-        self.OverrideAttribs = None
+    def __init__(self,data):
+        FfsInfStatement.__init__(self,data)
+
 
     ## __GetOptRomParams() method
     #
@@ -40,7 +40,7 @@ class OptRomInfStatement (FfsInfStatement):
     #
     def __GetOptRomParams(self):
         if self.OverrideAttribs is None:
-            self.OverrideAttribs = OverrideAttribs()
+            self.OverrideAttribs = OptRomInfStatementOverrideAttribs()
 
         if self.OverrideAttribs.NeedCompress is None:
             self.OverrideAttribs.NeedCompress = self.OptRomDefs.get ('PCI_COMPRESS')
@@ -89,13 +89,13 @@ class OptRomInfStatement (FfsInfStatement):
         #
         # For the rule only has simpleFile
         #
-        if isinstance (Rule, RuleSimpleFile.RuleSimpleFile) :
+        if isinstance (Rule, RuleSimpleFileClassObject) :
             EfiOutputList = self.__GenSimpleFileSection__(Rule, IsMakefile=IsMakefile)
             return EfiOutputList
         #
         # For Rule has ComplexFile
         #
-        elif isinstance(Rule, RuleComplexFile.RuleComplexFile):
+        elif isinstance(Rule, RuleComplexFileClassObject):
             EfiOutputList = self.__GenComplexFileSection__(Rule, IsMakefile=IsMakefile)
             return EfiOutputList
 
@@ -144,16 +144,3 @@ class OptRomInfStatement (FfsInfStatement):
 
         return OutputFileList
 
-class OverrideAttribs:
-
-    ## The constructor
-    #
-    #   @param  self        The object pointer
-    #
-    def __init__(self):
-
-        self.PciVendorId = None
-        self.PciClassCode = None
-        self.PciDeviceId = None
-        self.PciRevision = None
-        self.NeedCompress = None

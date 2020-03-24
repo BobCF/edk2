@@ -23,13 +23,16 @@ from Common.DataType import *
 ## generate data section
 #
 #
-class DepexSection (DepexSectionClassObject):
+class DepexSection:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        DepexSectionClassObject.__init__(self)
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     def __FindGuidValue(self, CName):
         for Arch in GenFdsGlobalVariable.ArchList:

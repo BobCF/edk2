@@ -28,14 +28,17 @@ from Common.DataType import *
 ## generate GUIDed section
 #
 #
-class GuidSection(GuidSectionClassObject) :
+class GuidSection:
 
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-        GuidSectionClassObject.__init__(self)
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenSection() method
     #

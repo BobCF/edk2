@@ -16,34 +16,22 @@ from struct import pack
 import os
 from Common.Misc import SaveFileOnChange
 import uuid
+from CommonDataClass.FdfClass import CapsuleData,CapsulePayloadData
 
-## base class for capsule data
-#
-#
-class CapsuleData:
-    ## The constructor
-    #
-    #   @param  self        The object pointer
-    def __init__(self):
-        pass
-
-    ## generate capsule data
-    #
-    #   @param  self        The object pointer
-    def GenCapsuleSubItem(self):
-        pass
 
 ## FFS class for capsule data
 #
 #
-class CapsuleFfs (CapsuleData):
+class CapsuleFfs:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self) :
-        self.Ffs = None
-        self.FvName = None
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## generate FFS capsule data
     #
@@ -57,15 +45,16 @@ class CapsuleFfs (CapsuleData):
 ## FV class for capsule data
 #
 #
-class CapsuleFv (CapsuleData):
+class CapsuleFv:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self) :
-        self.Ffs = None
-        self.FvName = None
-        self.CapsuleName = None
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## generate FV capsule data
     #
@@ -89,15 +78,16 @@ class CapsuleFv (CapsuleData):
 ## FD class for capsule data
 #
 #
-class CapsuleFd (CapsuleData):
+class CapsuleFd:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self) :
-        self.Ffs = None
-        self.FdName = None
-        self.CapsuleName = None
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## generate FD capsule data
     #
@@ -117,14 +107,16 @@ class CapsuleFd (CapsuleData):
 ## AnyFile class for capsule data
 #
 #
-class CapsuleAnyFile (CapsuleData):
+class CapsuleAnyFile:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self) :
-        self.Ffs = None
-        self.FileName = None
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## generate AnyFile capsule data
     #
@@ -137,14 +129,16 @@ class CapsuleAnyFile (CapsuleData):
 ## Afile class for capsule data
 #
 #
-class CapsuleAfile (CapsuleData):
+class CapsuleAfile:
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self) :
-        self.Ffs = None
-        self.FileName = None
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## generate Afile capsule data
     #
@@ -154,31 +148,13 @@ class CapsuleAfile (CapsuleData):
     def GenCapsuleSubItem(self):
         return self.FileName
 
-class CapsulePayload(CapsuleData):
-    '''Generate payload file, the header is defined below:
-    #pragma pack(1)
-    typedef struct {
-        UINT32 Version;
-        EFI_GUID UpdateImageTypeId;
-        UINT8 UpdateImageIndex;
-        UINT8 reserved_bytes[3];
-        UINT32 UpdateImageSize;
-        UINT32 UpdateVendorCodeSize;
-        UINT64 UpdateHardwareInstance; //Introduced in v2
-    } EFI_FIRMWARE_MANAGEMENT_CAPSULE_IMAGE_HEADER;
-    '''
-    def __init__(self):
-        self.UiName = None
-        self.Version = None
-        self.ImageTypeId = None
-        self.ImageIndex = None
-        self.HardwareInstance = None
-        self.ImageFile = []
-        self.VendorCodeFile = []
-        self.Certificate_Guid = None
-        self.MonotonicCount = None
-        self.Existed = False
-        self.Buffer = None
+class CapsulePayload:
+    
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     def GenCapsuleSubItem(self, AuthData=[]):
         if not self.Version:

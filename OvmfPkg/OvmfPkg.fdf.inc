@@ -9,6 +9,19 @@
 ##
 
 DEFINE BLOCK_SIZE        = 0x1000
+!ifdef $(FD_SIZE_1MB)
+  DEFINE FD_SIZE_IN_KB           = 1024
+!else
+!ifdef $(FD_SIZE_2MB)
+  DEFINE FD_SIZE_IN_KB           = 2048
+!else
+!ifdef $(FD_SIZE_4MB)
+  DEFINE FD_SIZE_IN_KB           = 4096
+!else
+  DEFINE FD_SIZE_IN_KB           = 4096
+!endif
+!endif
+!endif
 
 #
 # A firmware binary built with FD_SIZE_IN_KB=1024, and a firmware binary built

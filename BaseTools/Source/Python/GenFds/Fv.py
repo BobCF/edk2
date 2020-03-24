@@ -31,33 +31,12 @@ class FV (object):
     #
     #   @param  self        The object pointer
     #
-    def __init__(self, Name=None):
-        self.UiFvName = Name
-        self.CreateFileName = None
-        self.BlockSizeList = []
-        self.DefineVarDict = {}
-        self.SetVarDict = {}
-        self.FvAlignment = None
-        self.FvAttributeDict = {}
-        self.FvNameGuid = None
-        self.FvNameString = None
-        self.AprioriSectionList = []
-        self.FfsList = []
-        self.BsBaseAddress = None
-        self.RtBaseAddress = None
-        self.FvInfFile = None
-        self.FvAddressFile = None
-        self.BaseAddress = None
-        self.InfFileName = None
-        self.FvAddressFileName = None
-        self.CapsuleName = None
-        self.FvBaseAddress = None
-        self.FvForceRebase = None
-        self.FvRegionInFD = None
-        self.UsedSizeEnable = False
-        self.FvExtEntryTypeValue = []
-        self.FvExtEntryType = []
-        self.FvExtEntryData = []
+    def __init__(self, fv_data):
+        self.fv_data = fv_data
+    
+    def __getattr__(self,item):
+        return self.fv_data.__dict__[item]
+        
     ## AddToBuffer()
     #
     #   Generate Fv and add it to the Buffer

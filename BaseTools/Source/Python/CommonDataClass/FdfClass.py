@@ -5,6 +5,9 @@
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
+from uuid import UUID
+EFI_CERT_TYPE_PKCS7_GUID = UUID('{4aafd29d-68df-49ee-8aa9-347d375665a7}')
+EFI_CERT_TYPE_RSA2048_SHA256_GUID = UUID('{a7717414-c616-4977-9420-844712a735bf}')
 
 ## FD data in FDF
 #
@@ -15,6 +18,7 @@ class FDClassObject:
     #   @param  self        The object pointer
     #
     def __init__(self):
+        self.type 
         self.FdUiName = ''
         self.CreateFileName = None
         self.BaseAddress = None
@@ -29,6 +33,58 @@ class FDClassObject:
         # SetVarDict[var] = value
         self.SetVarDict = {}
         self.RegionList = []
+
+## Region data in FDF
+#
+#
+class RegionData():
+    def __init__(self):
+        self.Offset = None       # The begin position of the Region
+        self.Size = None         # The Size of the Region
+        self.PcdOffset = None
+        self.PcdSize = None
+        self.SetVarDict = {}
+        self.RegionType = None
+        self.RegionDataList = []
+
+## FV data in FDF
+class FvData():
+    def __init__(self, Name=None):
+        self.UiFvName = Name
+        self.CreateFileName = None
+        self.BlockSizeList = []
+        self.DefineVarDict = {}
+        self.SetVarDict = {}
+        self.FvAlignment = None
+        self.FvAttributeDict = {}
+        self.FvNameGuid = None
+        self.FvNameString = None
+        self.AprioriSectionList = []
+        self.FfsList = []
+        self.BsBaseAddress = None
+        self.RtBaseAddress = None
+        self.FvInfFile = None
+        self.FvAddressFile = None
+        self.BaseAddress = None
+        self.InfFileName = None
+        self.FvAddressFileName = None
+        self.CapsuleName = None
+        self.FvBaseAddress = None
+        self.FvForceRebase = None
+        self.FvRegionInFD = None
+        self.UsedSizeEnable = False
+        self.FvExtEntryTypeValue = []
+        self.FvExtEntryType = []
+        self.FvExtEntryData = []
+
+## APRIORI file data in FDF file
+#
+#
+class AprioriSectionData():
+    def __init__(self):
+        self.DefineVarDict = {}
+        self.FfsList = []
+        self.AprioriType = ""
 
 ## FFS data in FDF
 #
@@ -81,7 +137,43 @@ class FfsInfStatementClassObject(FfsClassObject):
         self.KeyStringList = []
         self.KeepReloc = None
         self.UseArch = None
+        
+class FfsInfStatementData(FfsInfStatementClassObject):
+    ## The constructor
+    #
+    #   @param  self        The object pointer
+    #
+    def __init__(self):
+        FfsInfStatementClassObject.__init__(self)
+        self.TargetOverrideList = []
+        self.ShadowFromInfFile = None
+        self.KeepRelocFromRule = None
+        self.InDsc = True
+        self.OptRomDefs = {}
+        self.PiSpecVersion = '0x00000000'
+        self.InfModule = None
+        self.FinalTargetSuffixMap = {}
+        self.CurrentLineNum = None
+        self.CurrentLineContent = None
+        self.FileName = None
+        self.InfFileName = None
+        self.OverrideGuid = None
+        self.PatchedBinFile = ''
+        self.MacroDict = {}
+        self.Depex = False
 
+class FileStatementData (FileStatementClassObject):
+    ## The constructor
+    #
+    #   @param  self        The object pointer
+    #
+    def __init__(self):
+        FileStatementClassObject.__init__(self)
+        self.CurrentLineNum = None
+        self.CurrentLineContent = None
+        self.FileName = None
+        self.InfFileName = None
+        self.SubAlignment = None
 ## section data in FDF
 #
 #
@@ -297,6 +389,11 @@ class CapsuleClassObject :
         self.TokensDict = {}
         self.CapsuleDataList = []
         self.FmpPayloadList = []
+        # For GenFv
+        self.BlockSize = None
+        # For GenFv
+        self.BlockNum = None
+        self.CapsuleName = None
 
 ## OptionROM data in FDF
 #
@@ -306,7 +403,79 @@ class OptionRomClassObject:
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
+    def __init__(self,Name = ""):
         self.DriverName = None
         self.FfsList = []
+        self.DriverName = Name
 
+class OptRomInfStatementData (FfsInfStatementData):
+    ## The constructor
+    #
+    #   @param  self        The object pointer
+    #
+    def __init__(self):
+        FfsInfStatementData.__init__(self)
+        self.OverrideAttribs = None
+
+class OptRomFileStatementData:
+    ## The constructor
+    #
+    #   @param  self        The object pointer
+    #
+    def __init__(self):
+        self.FileName = None
+        self.FileType = None
+        self.OverrideAttribs = None
+
+class OptRomInfStatementOverrideAttribs:
+
+    ## The constructor
+    #
+    #   @param  self        The object pointer
+    #
+    def __init__(self):
+
+        self.PciVendorId = None
+        self.PciClassCode = None
+        self.PciDeviceId = None
+        self.PciRevision = None
+        self.NeedCompress = None
+
+## base class for capsule data
+#
+#
+class CapsuleData:
+    ## The constructor
+    #
+    #   @param  self        The object pointer
+    def __init__(self):
+        self.Ffs = None
+        self.FvName = None
+        self.CapsuleName = None
+        self.Type = ''
+
+class CapsulePayloadData:
+    '''Generate payload file, the header is defined below:
+    #pragma pack(1)
+    typedef struct {
+        UINT32 Version;
+        EFI_GUID UpdateImageTypeId;
+        UINT8 UpdateImageIndex;
+        UINT8 reserved_bytes[3];
+        UINT32 UpdateImageSize;
+        UINT32 UpdateVendorCodeSize;
+        UINT64 UpdateHardwareInstance; //Introduced in v2
+    } EFI_FIRMWARE_MANAGEMENT_CAPSULE_IMAGE_HEADER;
+    '''
+    def __init__(self):
+        self.UiName = None
+        self.Version = None
+        self.ImageTypeId = None
+        self.ImageIndex = None
+        self.HardwareInstance = None
+        self.ImageFile = []
+        self.VendorCodeFile = []
+        self.Certificate_Guid = None
+        self.MonotonicCount = None
+        self.Existed = False
+        self.Buffer = None

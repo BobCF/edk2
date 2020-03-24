@@ -27,14 +27,17 @@ from Common.DataType import *
 ## generate rule section
 #
 #
-class EfiSection (EfiSectionClassObject):
+class EfiSection:
 
     ## The constructor
     #
     #   @param  self        The object pointer
     #
-    def __init__(self):
-          EfiSectionClassObject.__init__(self)
+    def __init__(self,data):
+        self.data = data
+    
+    def __getattr__(self,item):
+        return self.data.__dict__[item]
 
     ## GenSection() method
     #
