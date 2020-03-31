@@ -37,7 +37,7 @@ from .GenFdsGlobalVariable import GenFdsGlobalVariable
 from .FfsFileStatement import FileStatement
 import Common.DataType as DataType
 from struct import Struct
-
+from .FdfInfoOperator import FdfInfoOperator
 ## Version and Copyright
 versionNumber = "1.0" + ' ' + gBUILD_VERSION
 __version__ = "%prog Version " + versionNumber
@@ -314,6 +314,7 @@ def GenFdsApi(FdsCommandDict, WorkSpaceDataBase=None):
         else:
             FdfParserObj = FdfParser(FdfFilename)
             FdfParserObj.ParseFile()
+        FdfParserObj.Profile = FdfInfoOperator(FdfParserObj.Profile)
 
         if FdfParserObj.CycleReferenceCheck():
             EdkLogger.error("GenFds", FORMAT_NOT_SUPPORTED, "Cycle Reference Detected in FDF file")
@@ -536,6 +537,7 @@ class GenFds(object):
 
     @staticmethod
     def GenFfsMakefile(OutputDir, FdfParserObject, WorkSpace, ArchList, GlobalData):
+        FdfParserObject.Profile = FdfInfoOperator(FdfParserObject.Profile)
         GenFdsGlobalVariable.SetEnv(FdfParserObject, WorkSpace, ArchList, GlobalData)
         for FdObj in GenFdsGlobalVariable.FdfParser.Profile.FdDict.values():
             FdObj.GenFd(Flag=True)

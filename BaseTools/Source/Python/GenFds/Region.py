@@ -36,7 +36,7 @@ class Region(object):
         self.region_data = region_data
     
     def __getattr__(self,item):
-        return self.region_data.__dict__[item]
+        return self.region_data.__dict__.get(item)
 
     ## PadBuffer()
     #

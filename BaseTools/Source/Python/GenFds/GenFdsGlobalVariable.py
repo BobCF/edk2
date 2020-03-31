@@ -324,6 +324,7 @@ class GenFdsGlobalVariable:
         GenFdsGlobalVariable.ModuleFile = WorkSpace.ModuleFile
         GenFdsGlobalVariable.FdfParser = FdfParser
         GenFdsGlobalVariable.WorkSpace = WorkSpace.Db
+        GenFdsGlobalVariable.WorkSpaceDir = WorkSpace.WorkspaceDir
         GenFdsGlobalVariable.ArchList = ArchList
         GenFdsGlobalVariable.ToolChainTag = GlobalData.gGlobalDefines["TOOL_CHAIN_TAG"]
         GenFdsGlobalVariable.TargetName = GlobalData.gGlobalDefines["TARGET"]

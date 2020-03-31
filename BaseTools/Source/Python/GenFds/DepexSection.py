@@ -32,7 +32,7 @@ class DepexSection:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     def __FindGuidValue(self, CName):
         for Arch in GenFdsGlobalVariable.ArchList:

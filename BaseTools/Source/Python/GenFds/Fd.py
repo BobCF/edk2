@@ -35,7 +35,7 @@ class FD():
         self.fd_data = FdData
     
     def __getattr__(self,item):
-        return self.fd_data.__dict__[item]
+        return self.fd_data.__dict__.get(item)
 
     ## GenFd() method
     #

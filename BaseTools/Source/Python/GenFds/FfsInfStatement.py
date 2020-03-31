@@ -20,9 +20,9 @@ from .Ffs import SectionSuffix,FdfFvFileTypeToFileType
 import subprocess
 import sys
 from . import Section
-from . import RuleSimpleFile
-from . import RuleComplexFile
 from CommonDataClass.FdfClass import FfsInfStatementClassObject
+from CommonDataClass.FdfClass import RuleSimpleFileClassObject
+from CommonDataClass.FdfClass import RuleComplexFileClassObject
 from Common.MultipleWorkspace import MultipleWorkspace as mws
 from Common.DataType import SUP_MODULE_USER_DEFINED
 from Common.DataType import SUP_MODULE_HOST_APPLICATION
@@ -58,7 +58,7 @@ class FfsInfStatement(object):
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     ## GetFinalTargetSuffixMap() method
     #
@@ -494,14 +494,14 @@ class FfsInfStatement(object):
             if self.OverrideGuid:
                 PathClassObj = ProcessDuplicatedInf(PathClassObj, self.OverrideGuid, GenFdsGlobalVariable.WorkSpaceDir)
             MakefilePath = PathClassObj.Path, Arch
-        if isinstance (Rule, RuleSimpleFile.RuleSimpleFile):
+        if isinstance (Rule, RuleSimpleFileClassObject):
             SectionOutputList = self.__GenSimpleFileSection__(Rule, IsMakefile=IsMakefile)
             FfsOutput = self.__GenSimpleFileFfs__(Rule, SectionOutputList, MakefilePath=MakefilePath)
             return FfsOutput
         #
         # For Rule has ComplexFile
         #
-        elif isinstance(Rule, RuleComplexFile.RuleComplexFile):
+        elif isinstance(Rule, RuleComplexFileClassObject):
             InputSectList, InputSectAlignments = self.__GenComplexFileSection__(Rule, FvChildAddr, FvParentAddr, IsMakefile=IsMakefile)
             FfsOutput = self.__GenComplexFileFfs__(Rule, InputSectList, InputSectAlignments, MakefilePath=MakefilePath)
             return FfsOutput

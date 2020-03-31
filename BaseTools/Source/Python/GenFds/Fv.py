@@ -35,7 +35,7 @@ class FV (object):
         self.fv_data = fv_data
     
     def __getattr__(self,item):
-        return self.fv_data.__dict__[item]
+        return self.fv_data.__dict__.get(item)
         
     ## AddToBuffer()
     #

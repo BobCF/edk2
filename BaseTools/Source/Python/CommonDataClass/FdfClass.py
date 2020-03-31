@@ -18,7 +18,6 @@ class FDClassObject:
     #   @param  self        The object pointer
     #
     def __init__(self):
-        self.type 
         self.FdUiName = ''
         self.CreateFileName = None
         self.BaseAddress = None
@@ -254,7 +253,7 @@ class FvImageSectionClassObject (SectionClassObject):
     #   @param  self        The object pointer
     #
     def __init__(self):
-        SectionClassObject.__init__(self)
+        super(FvImageSectionClassObject,self).__init__()
         self.Fv = None
         self.FvName = None
         self.FvFileType = None
@@ -271,7 +270,7 @@ class GuidSectionClassObject (SectionClassObject) :
     #   @param  self        The object pointer
     #
     def __init__(self):
-        SectionClassObject.__init__(self)
+        super(GuidSectionClassObject,self).__init__()
         self.NameGuid = None
         self.SectionList = []
         self.SectionType = None

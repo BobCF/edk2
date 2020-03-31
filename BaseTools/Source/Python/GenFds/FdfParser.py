@@ -624,7 +624,7 @@ class FdfParser:
                     #
                     PlatformDir = ''
                     if self.PlatformDir:
-                        PlatformDir = PlatformDir
+                        PlatformDir = self.PlatformDir
                     elif GlobalData.gActivePlatform:
                         PlatformDir = GlobalData.gActivePlatform.MetaFile.Dir
                     IncludedFile1 = PathClass(IncludedFile, PlatformDir)

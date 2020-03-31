@@ -32,7 +32,7 @@ class UiSection:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     ## GenSection() method
     #

@@ -31,7 +31,7 @@ class CapsuleFfs:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__get(item)
 
     ## generate FFS capsule data
     #
@@ -54,7 +54,7 @@ class CapsuleFv:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     ## generate FV capsule data
     #
@@ -87,7 +87,7 @@ class CapsuleFd:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     ## generate FD capsule data
     #
@@ -116,7 +116,7 @@ class CapsuleAnyFile:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     ## generate AnyFile capsule data
     #
@@ -138,7 +138,7 @@ class CapsuleAfile:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     ## generate Afile capsule data
     #
@@ -154,7 +154,7 @@ class CapsulePayload:
         self.data = data
     
     def __getattr__(self,item):
-        return self.data.__dict__[item]
+        return self.data.__dict__.get(item)
 
     def GenCapsuleSubItem(self, AuthData=[]):
         if not self.Version:

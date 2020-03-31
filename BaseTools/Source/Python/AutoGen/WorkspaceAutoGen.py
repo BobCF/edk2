@@ -160,7 +160,7 @@ class WorkspaceAutoGen(AutoGen):
 
         FdfProfile = None
         if self.FdfFile:
-            Fdf = FdfParser(self.FdfFile.Path)
+            Fdf = FdfParser(self.FdfFile.Path, self.WorkspaceDir,"Ovmf",os.path.dirname(self.Platform.MetaFile.Path))
             Fdf.ParseFile()
             GlobalData.gFdfParser = Fdf
             if Fdf.CurrentFdName and Fdf.CurrentFdName in Fdf.Profile.FdDict:
