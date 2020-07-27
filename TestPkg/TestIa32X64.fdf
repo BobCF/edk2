@@ -116,6 +116,7 @@ READ_LOCK_STATUS   = TRUE
 # decompresses the PEI and DXE FVs which handles the rest of the boot sequence.
 #
 INF  TestPkg/Sec/SecMain.inf
+INF  TestPkg\FakeEmuSec\Sec.inf
 
 INF  RuleOverride=RESET_VECTOR TestPkg/ResetVector/ResetVector.inf
 
@@ -191,6 +192,7 @@ INF  UefiCpuPkg\CpuDxe\CpuDxe.inf
 #INF  MdeModulePkg/Universal/StatusCodeHandler/RuntimeDxe/StatusCodeHandlerRuntimeDxe.inf
 
 INF  MdeModulePkg/Logo/LogoDxe.inf
+INF  TestPkg\FakeLogo\JpegLogoDxe.inf
 
 
 ################################################################################

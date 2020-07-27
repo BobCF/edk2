@@ -113,6 +113,7 @@
   #
   # SEC Phase modules
   #
+  TestPkg\FakeEmuSec\Sec.inf
   TestPkg/Sec/SecMain.inf {
     <LibraryClasses>
     NULL|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
@@ -151,6 +152,7 @@
   MdeModulePkg/Core/RuntimeDxe/RuntimeDxe.inf
 
   MdeModulePkg/Logo/LogoDxe.inf
+  TestPkg\FakeLogo\JpegLogoDxe.inf
   MdeModulePkg/Application/UiApp/UiApp.inf {
     <LibraryClasses>
       NULL|MdeModulePkg/Library/DeviceManagerUiLib/DeviceManagerUiLib.inf

@@ -42,10 +42,11 @@ NvVarsFileLib|TestPkg/Library/NvVarsFileLib/NvVarsFileLib.inf
   SortLib|MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf
   CpuLib|MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
   MtrrLib|UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
-
+  FakeLibraryLib|TestPkg/Library/BaseFakeLibraryLib/BaseFakeLibraryLib.inf
 
 [LibraryClasses.common.SEC]
   TimerLib|TestPkg/Library/AcpiTimerLib/BaseRomAcpiTimerLib.inf
+  PpiListLib|EmulatorPkg/Library/SecPpiListLib/SecPpiListLib.inf
   
 !ifdef $(DEBUG_ON_SERIAL_PORT)
   DebugLib|MdePkg/Library/BaseDebugLibSerialPort/BaseDebugLibSerialPort.inf
