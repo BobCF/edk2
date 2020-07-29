@@ -5,7 +5,8 @@
   SPDX-License-Identifier: BSD-2-Clause-Patent
 
 **/
-
+#include "Platform.h"
+#include "test.asi"
 DefinitionBlock ("Dsdt.aml", "DSDT", 1, "INTEL ", "OVMF    ", 4) {
   //
   // System Sleep States
@@ -15,7 +16,6 @@ DefinitionBlock ("Dsdt.aml", "DSDT", 1, "INTEL ", "OVMF    ", 4) {
   //
   Name (\_S0, Package () {5, 0, 0, 0}) // Working
   Name (\_S5, Package () {0, 0, 0, 0}) // Soft Off
-
   //
   //  System Bus
   //
@@ -82,7 +82,7 @@ DefinitionBlock ("Dsdt.aml", "DSDT", 1, "INTEL ", "OVMF    ", 4) {
           ReadWrite,
           0x00000000,            // Granularity
           0x000A0000,            // Min
-          0x000BFFFF,            // Max
+          MAX_DWORDMEMORY,       // Max
           0x00000000,            // Translation
           0x00020000             // Range Length
           )
@@ -115,7 +115,7 @@ DefinitionBlock ("Dsdt.aml", "DSDT", 1, "INTEL ", "OVMF    ", 4) {
             ReadWrite,
             0x00000000,          // Granularity
             0x8000000000,        // Min
-            0xFFFFFFFFFF,        // Max
+            MAX_QWordMemory,     // Max
             0x00000000,          // Translation
             0x8000000000,        // Range Length
             ,                    // ResourceSourceIndex

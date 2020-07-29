@@ -12,11 +12,12 @@
 ;   Switch the stack from temporary memory to permanent memory.
 ;
 ;------------------------------------------------------------------------------
-
+#include "FakeTest.h"
+#include "FakeTest.i"
+#include "FakeTest.inc"
     .586p
     .model  flat,C
     .code
-
 ;------------------------------------------------------------------------------
 ; VOID
 ; EFIAPI
@@ -33,7 +34,6 @@ SecSwitchStack   PROC
     push  ebx
     push  ecx
     push  edx
-
     ;
     ; !!CAUTION!! this function address's is pushed into stack after
     ; migration of whole temporary memory, so need save it to permanent
@@ -54,12 +54,12 @@ SecSwitchStack   PROC
     mov   dword ptr [eax], edx
     mov   edx, dword ptr [esp + 4]
     mov   dword ptr [eax + 4], edx
-    mov   edx, dword ptr [esp + 8]
-    mov   dword ptr [eax + 8], edx
-    mov   edx, dword ptr [esp + 12]
-    mov   dword ptr [eax + 12], edx
-    mov   edx, dword ptr [esp + 16]    ; Update this function's return address into permanent memory
-    mov   dword ptr [eax + 16], edx
+    mov   edx, dword ptr [esp + testaddr0]
+    mov   dword ptr [eax + testaddr0], edx
+    mov   edx, dword ptr [esp + testaddr1]
+    mov   dword ptr [eax + testaddr1], edx
+    mov   edx, dword ptr [esp + testaddr2]    ; Update this function's return address into permanent memory
+    mov   dword ptr [eax + testaddr2], edx
     mov   esp, eax                     ; From now, esp is pointed to permanent memory
 
     ;

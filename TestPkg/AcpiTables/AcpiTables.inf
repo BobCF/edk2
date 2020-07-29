@@ -23,11 +23,13 @@
 
 [Sources]
   Platform.h
+  TestPlatform.asl
   Madt.aslc
   Facp.aslc
   Facs.aslc
   Dsdt.asl
   Ssdt.asl
+  test.asi
 
 [Packages]
   MdePkg/MdePkg.dec

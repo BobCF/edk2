@@ -52,6 +52,7 @@
                          EFI_ACPI_2_0_RESET_REG_SUP)
 #define RESET_REG       0xCF9
 #define RESET_VALUE     (BIT2 | BIT1) // PIIX3 Reset CPU + System Reset
+#define MAX_DWORDMEMORY 0x000BFFFF
 
 //
 // Byte-aligned IO port register block initializer for

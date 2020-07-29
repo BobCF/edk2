@@ -40,6 +40,7 @@
   UefiBootServicesTableLib
   UefiDriverEntryPoint
   DebugLib
+  DebugAgentLib
 
 [Protocols]
   gEfiHiiDatabaseProtocolGuid        ## CONSUMES
