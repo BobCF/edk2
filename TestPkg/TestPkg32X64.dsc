@@ -117,6 +117,7 @@
   TestPkg/Sec/SecMain.inf {
     <LibraryClasses>
     NULL|MdeModulePkg/Library/LzmaCustomDecompressLib/LzmaCustomDecompressLib.inf
+	LockBoxLib|MdeModulePkg\Library\LockBoxNullLib\LockBoxNullLib.inf
   }
 
   #
@@ -165,3 +166,28 @@
   }
   FatPkg/EnhancedFatDxe/Fat.inf
   TestPkg/AcpiTables/AcpiTables.inf
+  MdeModulePkg\Universal\DevicePathDxe\DevicePathDxe.inf
+
+
+
+################################################################################
+#
+# Pcd Section - list of test EDK II PCD Entries defined by this Platform.
+#
+################################################################################
+[PcdsFeatureFlag]
+gUefiOvmfPkgTokenSpaceGuid.PcdSmmSmramRequire|TRUE
+gEfiMdeModulePkgTokenSpaceGuid.PcdPeiFullPcdDatabaseEnable|TRUE
+
+
+[PcdsFixedAtBuild]
+gEfiMdePkgTokenSpaceGuid.PcdUefiVariableDefaultPlatformLang|"en-US"|VOID*|0x0000001f
+
+[PcdsDynamicDefault]
+gUefiCpuPkgTokenSpaceGuid.PcdCpuMaxLogicalProcessorNumber|64
+
+[PcdsDynamicVpd]
+gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64|0x8000001
+
+[PcdsDynamicHii]
+gEfiMdeModulePkgTokenSpaceGuid.PcdUse1GPageTable|L"1GPageTable"|gEfiGenericVariableGuid|0x0|TRUE

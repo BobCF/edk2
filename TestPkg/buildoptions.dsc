@@ -31,3 +31,12 @@
   XCODE:*_*_*_DLINK_FLAGS = -seg1addr 0x1000 -segalign 0x1000
   XCODE:*_*_*_MTOC_FLAGS = -align 0x1000
   CLANGPDB:*_*_*_DLINK_FLAGS = /ALIGN:4096
+  
+[BuildOptions.IA32]
+  RELEASE_MYTOOLS_IA32_CC_FLAGS        = /D MDEPKG_NDEBUG
+
+[BuildOptions.IA32.EDKII.PEIM]
+  GCC:*_*_*_DLINK_FLAGS = -z common-page-size=0x1000
+  
+[BuildOptions.common.EDKII.BASE]
+  MSFT:RELEASE_*_*_CC_FLAGS            = /D MDEPKG_NDEBUG

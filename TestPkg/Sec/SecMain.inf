@@ -51,6 +51,7 @@
   ExtractGuidedSectionLib
   LocalApicLib
   FakeLibraryLib
+  LockBoxLib
 
 [Ppis]
   gEfiTemporaryRamSupportPpiGuid                # PPI ALWAYS_PRODUCED

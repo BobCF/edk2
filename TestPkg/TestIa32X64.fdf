@@ -194,7 +194,6 @@ INF  UefiCpuPkg\CpuDxe\CpuDxe.inf
 INF  MdeModulePkg/Logo/LogoDxe.inf
 INF  TestPkg\FakeLogo\JpegLogoDxe.inf
 
-
 ################################################################################
 
 [FV.FVMAIN_COMPACT]

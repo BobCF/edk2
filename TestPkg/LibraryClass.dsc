@@ -43,6 +43,7 @@ NvVarsFileLib|TestPkg/Library/NvVarsFileLib/NvVarsFileLib.inf
   CpuLib|MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
   MtrrLib|UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
   FakeLibraryLib|TestPkg/Library/BaseFakeLibraryLib/BaseFakeLibraryLib.inf
+  LockBoxLib|MdeModulePkg\Library\LockBoxNullLib\LockBoxNullLib.inf
 
 [LibraryClasses.common.SEC]
   TimerLib|TestPkg/Library/AcpiTimerLib/BaseRomAcpiTimerLib.inf
