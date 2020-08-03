@@ -7,7 +7,6 @@
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
 #
 ##
-
 ################################################################################
 #
 # Defines Section - statements that will be processed to create a Makefile.
@@ -18,6 +17,7 @@
   PLATFORM_GUID                  = 5a9e7754-d81b-49ea-85ad-69eaa7b1539b
   PLATFORM_VERSION               = 0.1
   DSC_SPECIFICATION              = 0x00010005
+  VPD_TOOL_GUID                  = 8C3D856A-9BE6-468E-850A-24F7A8D38E08
   OUTPUT_DIRECTORY               = Build/TestPkg3264
   SUPPORTED_ARCHITECTURES        = IA32|X64
   BUILD_TARGETS                  = NOOPT|DEBUG|RELEASE
@@ -191,3 +191,6 @@ gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase64|0x8000001
 
 [PcdsDynamicHii]
 gEfiMdeModulePkgTokenSpaceGuid.PcdUse1GPageTable|L"1GPageTable"|gEfiGenericVariableGuid|0x0|TRUE
+
+[PcdsDynamicExVpd.common.DEFAULT]
+ gEfiMdeModulePkgTokenSpaceGuid.PcdNvStoreDefaultValueBuffer|*
