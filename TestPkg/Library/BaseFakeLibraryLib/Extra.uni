@@ -14,12 +14,11 @@
 // **/
 
 #include "UniIncluded.uni"
-#langdef en-US  "English"
 
 
 #string STR_EXTRA_ABSTRACT             
 #language en-US 
-"This is the Extra ABSTRACT of the Module"
+EXTRAINC_ABSTRACT
 
 #string STR_EXTRA_DESCRIPTION          
 #language en-US 

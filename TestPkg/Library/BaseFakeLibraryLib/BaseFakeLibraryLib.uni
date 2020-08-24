@@ -14,7 +14,7 @@
 // **/
 
 
-#string STR_MODULE_ABSTRACT             #language en-US "Fake Library Instance for Incremental Build Test(for I/O APIC library class)."
+#string STR_MODULE_ABSTRACT             #language en-US STR_EXTRA_ABSTRACT
 
 #string STR_MODULE_DESCRIPTION          #language en-US "Fake Library Instance try to test the influence which brought by all types of source code files' changing (Copy from PcAtChipsetPkg\Library\BaseIoApicLib)."
 
