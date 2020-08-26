@@ -27,7 +27,7 @@
 #  VALID_ARCHITECTURES           = IA32 X64
 #
 
-[Sources]
+[Sources.X64]
   Logo.jpg
   Logo.c
   JpegLogo.idf
