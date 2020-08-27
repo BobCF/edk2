@@ -9,10 +9,7 @@
 
 /=#
 
-#langdef   en-US "English"
-#langdef   fr-FR "Français"
-#langdef   en    "Standard English"
-#langdef   fr    "Standard Français"
+#include "JustATest.uni"
 
 #string STR_FRONT_PAGE_TITLE           #language en-US  "Front Page"
                                        #language fr-FR  "Front Page"
