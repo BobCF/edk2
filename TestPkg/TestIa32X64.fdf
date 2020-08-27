@@ -229,6 +229,9 @@ FILE FV_IMAGE = 9E21FD93-9C72-4c15-8C4B-E77F1DB2D792 {
 
 !include FvmainCompactScratchEnd.fdf.inc
 
+FILE RAW = 7BB24689-61AB-11D5-9A5D-0090DE4CC14D {
+    SECTION RAW = TestPkg\FakeBinary\FakeBinary.txt
+}
 ################################################################################
 
 [Rule.Common.SEC]
@@ -337,4 +340,8 @@ FILE FV_IMAGE = 9E21FD93-9C72-4c15-8C4B-E77F1DB2D792 {
     PE32     PE32                    $(INF_OUTPUT)/$(MODULE_NAME).efi
     UI       STRING="$(MODULE_NAME)" Optional
     VERSION  STRING="$(INF_VERSION)" Optional BUILD_NUM=$(BUILD_NUMBER)
+  }
+[Rule.Common.USER_DEFINED.FAKEBINARY]
+  FILE FREEFORM = $(NAMED_GUID) {
+    RAW BIN               |.txt
   }
