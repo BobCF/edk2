@@ -1,0 +1,16 @@
+///** @file
+//
+//  String definitions for BdsPlatform formset.
+//
+//  Copyright (c) 2004 - 2016, Intel Corporation. All rights reserved.<BR>
+//  SPDX-License-Identifier: BSD-2-Clause-Patent
+//
+//**/
+
+#langdef   en-US "Français"
+#langdef   fr-FR "English"
+#langdef   en    "Standard English"
+#langdef   fr    "Standard Français"
+
+#string STR_CONTINUE_PROMPT            #language en-US  "Continue"
+                                       #language fr-FR  "Continuer"
