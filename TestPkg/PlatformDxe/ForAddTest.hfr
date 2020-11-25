@@ -1,0 +1,16 @@
+///** @file
+//  Boot Maintenance Utility Formset
+//
+//  Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>
+//  SPDX-License-Identifier: BSD-2-Clause-Patent
+//
+//**/
+
+
+    form formid = FORM_DRV_CHG_ID,
+       title = STRING_TOKEN(STR_FORM_DRV_CHG_TITLE);
+
+       label FORM_DRV_CHG_ID;
+       label LABEL_END;
+
+    endform;
