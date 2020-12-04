@@ -22,7 +22,7 @@
   SUPPORTED_ARCHITECTURES        = IA32|X64
   BUILD_TARGETS                  = NOOPT|DEBUG|RELEASE
   SKUID_IDENTIFIER               = DEFAULT
-  FLASH_DEFINITION               = TestPkg/TestIa32X64.fdf
+  FLASH_DEFINITION               = TestPkg/TestPkgIa32X64.fdf
 
   #
   # Defines for default states.  These can be changed on the command line.
@@ -42,7 +42,6 @@
   DEFINE NETWORK_HTTP_BOOT_ENABLE       = FALSE
   DEFINE NETWORK_ALLOW_HTTP_CONNECTIONS = TRUE
 
-!include NetworkPkg/NetworkDefines.dsc.inc
 
   #
   # Device drivers

@@ -17,14 +17,13 @@
 # Build the variable store and the firmware code as one unified flash device
 # image.
 #
-[FD.OVMF]
+[FD.TestPkg]
 BaseAddress   = $(FW_BASE_ADDRESS)
 Size          = $(FW_SIZE)
 ErasePolarity = 1
 BlockSize     = $(BLOCK_SIZE)
 NumBlocks     = $(FW_BLOCKS)
 
-!include VarStore.fdf.inc
 
 $(VARS_SIZE)|$(FVMAIN_SIZE)
 FV = FVMAIN_COMPACT
@@ -36,7 +35,7 @@ FV = SECFV
 # Build the variable store and the firmware code as separate flash device
 # images.
 #
-[FD.OVMF_VARS]
+[FD.TestPkg_VARS]
 BaseAddress   = $(FW_BASE_ADDRESS)
 Size          = $(VARS_SIZE)
 ErasePolarity = 1
@@ -45,7 +44,7 @@ NumBlocks     = $(VARS_BLOCKS)
 
 !include VarStore.fdf.inc
 
-[FD.OVMF_CODE]
+[FD.TestPkg_CODE]
 BaseAddress   = $(CODE_BASE_ADDRESS)
 Size          = $(CODE_SIZE)
 ErasePolarity = 1
@@ -68,23 +67,17 @@ BlockSize     = 0x10000
 NumBlocks     = 0xD0
 
 0x000000|0x006000
-gUefiOvmfPkgTokenSpaceGuid.PcdOvmfSecPageTablesBase|gUefiOvmfPkgTokenSpaceGuid.PcdOvmfSecPageTablesSize
 
 0x006000|0x001000
-gUefiOvmfPkgTokenSpaceGuid.PcdOvmfLockBoxStorageBase|gUefiOvmfPkgTokenSpaceGuid.PcdOvmfLockBoxStorageSize
 
 0x007000|0x001000
-gEfiMdePkgTokenSpaceGuid.PcdGuidedExtractHandlerTableAddress|gUefiOvmfPkgTokenSpaceGuid.PcdGuidedExtractHandlerTableSize
 
 0x010000|0x010000
-gUefiOvmfPkgTokenSpaceGuid.PcdOvmfSecPeiTempRamBase|gUefiOvmfPkgTokenSpaceGuid.PcdOvmfSecPeiTempRamSize
 
 0x020000|0x0E0000
-gUefiOvmfPkgTokenSpaceGuid.PcdOvmfPeiMemFvBase|gUefiOvmfPkgTokenSpaceGuid.PcdOvmfPeiMemFvSize
 FV = PEIFV
 
 0x100000|0xC00000
-gUefiOvmfPkgTokenSpaceGuid.PcdOvmfDxeMemFvBase|gUefiOvmfPkgTokenSpaceGuid.PcdOvmfDxeMemFvSize
 FV = DXEFV
 
 ################################################################################
@@ -188,8 +181,6 @@ INF  FatPkg/EnhancedFatDxe/Fat.inf
 INF  RuleOverride=ACPITABLE TestPkg/AcpiTables/AcpiTables.inf
 
 INF  UefiCpuPkg\CpuDxe\CpuDxe.inf
-#INF  MdeModulePkg/Universal/ReportStatusCodeRouter/RuntimeDxe/ReportStatusCodeRouterRuntimeDxe.inf
-#INF  MdeModulePkg/Universal/StatusCodeHandler/RuntimeDxe/StatusCodeHandlerRuntimeDxe.inf
 
 INF  MdeModulePkg/Logo/LogoDxe.inf
 INF  TestPkg\FakeLogo\JpegLogoDxe.inf
@@ -228,7 +219,7 @@ FILE FV_IMAGE = 9E21FD93-9C72-4c15-8C4B-E77F1DB2D792 {
    }
  }
 
-!include FvmainCompactScratchEnd.fdf.inc
+
 
 FILE RAW = 7BB24689-61AB-11D5-9A5D-0090DE4CC14D {
     SECTION RAW = TestPkg\FakeBinary\FakeBinary.txt
