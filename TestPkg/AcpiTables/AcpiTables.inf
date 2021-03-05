@@ -34,7 +34,8 @@
 [Packages]
   MdePkg/MdePkg.dec
   OvmfPkg/OvmfPkg.dec
+  TestPkg/TestPkg.dec
 
 [Pcd]
-  gUefiOvmfPkgTokenSpaceGuid.PcdDebugIoPort
+  gUefiTestPkgTokenSpaceGuid.PcdDebugIoPort
 

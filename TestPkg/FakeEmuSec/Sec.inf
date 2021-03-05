@@ -37,6 +37,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   EmulatorPkg/EmulatorPkg.dec
+  TestPkg/TestPkg.dec
 
 [LibraryClasses]
   DebugLib
@@ -46,7 +47,7 @@
   BaseMemoryLib
 
 [Ppis]
-  gEfiTemporaryRamSupportPpiGuid
+  gEfiTestTempRamSupportPpiGuid
 
 [Pcd]
   gEmulatorPkgTokenSpaceGuid.PcdPeiServicesTablePage

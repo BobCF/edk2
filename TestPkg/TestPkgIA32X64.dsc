@@ -128,7 +128,7 @@
       PcdLib|MdePkg/Library/BasePcdLibNull/BasePcdLibNull.inf
   }
 
-  MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf
+  TestPkg/DxeIplPeim/DxeIpl.inf
   UefiCpuPkg\CpuMpPei\CpuMpPei.inf
 #  TestPkg/PlatformPei/PlatformPei.inf
 
@@ -156,7 +156,7 @@
   MdeModulePkg/Application/UiApp/UiApp.inf {
     <LibraryClasses>
       NULL|MdeModulePkg/Library/DeviceManagerUiLib/DeviceManagerUiLib.inf
-      NULL|MdeModulePkg/Library/BootManagerUiLib/BootManagerUiLib.inf
+      NULL|TestPkg/Library/BootManagerUiLib/BootManagerUiLib.inf
       NULL|MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib.inf
 !ifdef $(CSM_ENABLE)
       NULL|TestPkg/Csm/LegacyBootManagerLib/LegacyBootManagerLib.inf

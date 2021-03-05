@@ -35,6 +35,7 @@
   MdeModulePkg/MdeModulePkg.dec
   UefiCpuPkg/UefiCpuPkg.dec
   OvmfPkg/OvmfPkg.dec
+  TestPkg/TestPkg.dec
 
 [LibraryClasses]
   BaseLib
@@ -54,7 +55,7 @@
   LockBoxLib
 
 [Ppis]
-  gEfiTemporaryRamSupportPpiGuid                # PPI ALWAYS_PRODUCED
+  gEfiTestTempRamSupportPpiGuid                # PPI ALWAYS_PRODUCED
 
 [Pcd]
   gUefiOvmfPkgTokenSpaceGuid.PcdOvmfPeiMemFvBase

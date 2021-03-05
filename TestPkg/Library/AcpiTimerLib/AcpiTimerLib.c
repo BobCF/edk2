@@ -17,7 +17,7 @@
 //
 // The ACPI Time is a 24-bit counter
 //
-#define ACPI_TIMER_COUNT_SIZE  BIT24
+
 
 /**
   Stalls the CPU for at least the given number of ticks.

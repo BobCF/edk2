@@ -773,7 +773,7 @@ PlatformInit (
   // Declare ourselves suitable for HII communication.
   //
   Status = gBS->InstallMultipleProtocolInterfaces (&ImageHandle,
-                  &gEfiDevicePathProtocolGuid,      &mPkgDevicePath,
+                  &gEfiTestDevicePathProtocolGuid,      &mPkgDevicePath,
                   &gEfiHiiConfigAccessProtocolGuid, &mConfigAccess,
                   NULL);
   if (EFI_ERROR (Status)) {
@@ -823,7 +823,7 @@ RemovePackages:
 
 UninstallProtocols:
   gBS->UninstallMultipleProtocolInterfaces (ImageHandle,
-         &gEfiDevicePathProtocolGuid,      &mPkgDevicePath,
+         &gEfiTestDevicePathProtocolGuid,      &mPkgDevicePath,
          &gEfiHiiConfigAccessProtocolGuid, &mConfigAccess,
          NULL);
   return Status;
@@ -862,7 +862,7 @@ PlatformUnload (
   //
   HiiRemovePackages (mInstalledPackages);
   gBS->UninstallMultipleProtocolInterfaces (ImageHandle,
-         &gEfiDevicePathProtocolGuid,      &mPkgDevicePath,
+         &gEfiTestDevicePathProtocolGuid,      &mPkgDevicePath,
          &gEfiHiiConfigAccessProtocolGuid, &mConfigAccess,
          NULL);
   return EFI_SUCCESS;

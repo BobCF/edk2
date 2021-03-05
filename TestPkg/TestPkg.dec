@@ -1,0 +1,149 @@
+[Defines]
+  DEC_SPECIFICATION              = 0x00010005
+  PACKAGE_NAME                   = TestPkg
+  PACKAGE_GUID                   = 2daf5f34-50e5-4b9d-b8e3-7432331584e5
+  PACKAGE_VERSION                = 0.1
+
+[Includes]
+  Include1
+
+[LibraryClasses]
+  ##  @libraryclass  Defines a set of methods to reset whole system.
+  ResetSystemLib|Include/Library/ResetSystemLib.h
+
+  ##  @libraryclass  Business logic for storing and testing variable policies
+  VariablePolicyLib|Include/Library/VariablePolicyLib.h
+
+  ##  @libraryclass  Defines a set of helper functions for resetting the system.
+  ResetUtilityLib|Include/Library/ResetUtilityLib.h
+
+  ##  @libraryclass  Provides HII related functions.
+  HiiLib|Include/Library/HiiLib.h
+
+  ##  @libraryclass  Defines a set of interfaces on how to process capusle image update.
+  CapsuleLib|Include/Library/CapsuleLib.h
+
+  ##  @libraryclass    Provides global variables that are pointers
+  #   to the UEFI HII related protocols.
+  #
+  UefiHiiServicesLib|Include/Library/UefiHiiServicesLib.h
+
+  ##  @libraryclass    Provides a set of interfaces to abstract the policy of security measurement.
+  #
+  SecurityManagementLib|Include/Library/SecurityManagementLib.h
+
+  ##  @libraryclass  OEM status code libary is used to report status code to OEM device.
+  #
+  OemHookStatusCodeLib|Include/Library/OemHookStatusCodeLib.h
+
+  ##  @libraryclass  Debug Agent is used to provide soft debug capability.
+  #
+  DebugAgentLib|Include/Library/DebugAgentLib.h
+
+  ##  @libraryclass  Provide platform specific hooks.
+  #
+  PlatformHookLib|Include/Library/PlatformHookLib.h
+
+  ##  @libraryclass  Provide platform specific hooks for SMM core.
+  #
+  SmmCorePlatformHookLib|Include/Library/SmmCorePlatformHookLib.h
+
+  ##  @libraryclass  Provide capability to maintain the data integrity cross S3 phase.
+  #
+  LockBoxLib|Include/Library/LockBoxLib.h
+
+  ##  @libraryclass  Provide the CPU exception handler.
+  #
+  CpuExceptionHandlerLib|Include/Library/CpuExceptionHandlerLib.h
+
+  ##  @libraryclass    Provides platform specific display interface.
+  #
+  CustomizedDisplayLib|Include/Library/CustomizedDisplayLib.h
+
+  ## @libraryclass   Provides sorting functions
+  SortLib|Include/Library/SortLib.h
+
+  ## @libraryclass   Provides core boot manager functions
+  UefiBootManagerLib|Include/Library/UefiBootManagerLib.h
+
+  ## @libraryclass   Provides core boot manager functions
+  PlatformBootManagerLib|Include/Library/PlatformBootManagerLib.h
+
+  ## @libraryclass  Provides common interfaces about TPM measurement for other modules.
+  #
+  TpmMeasurementLib|Include/Library/TpmMeasurementLib.h
+
+  ## @libraryclass  Provides authenticated variable services.
+  #
+  AuthVariableLib|Include/Library/AuthVariableLib.h
+
+  ## @libraryclass  Provides variable check services and database management.
+  #
+  VarCheckLib|Include/Library/VarCheckLib.h
+
+  ## @libraryclass  Provides services to get variable error flag and do platform variable cleanup.
+  #
+  PlatformVarCleanupLib|Include/Library/PlatformVarCleanupLib.h
+
+  ## @libraryclass  Provides services to get do the file explorer.
+  #
+  FileExplorerLib|Include/Library/FileExplorerLib.h
+
+  ## @libraryclass  Provides interfaces about logo display.
+  #
+  BootLogoLib|Include/Library/BootLogoLib.h
+
+  ## @libraryclass  Provides interfaces about Ipmi submit generic commond.
+  #
+  IpmiLib|Include/Library/IpmiLib.h
+
+  ## @libraryclass  Provides interfaces for platform to return root bridge information to PciHostBridgeDxe driver.
+  #
+  PciHostBridgeLib|Include/Library/PciHostBridgeLib.h
+
+  ## @libraryclass  Provides services to record memory profile of multilevel caller.
+  #
+  MemoryProfileLib|Include/Library/MemoryProfileLib.h
+
+  ##  @libraryclass  Provides an interface for performing UEFI Graphics Output Protocol Video blt operations.
+  ##
+  FrameBufferBltLib|Include/Library/FrameBufferBltLib.h
+
+  ## @libraryclass  Provides services to authenticate a UEFI defined FMP Capsule.
+  #
+  FmpAuthenticationLib|Include/Library/FmpAuthenticationLib.h
+
+  ## @libraryclass   Provides a service to register non-discoverable device
+  ##
+  NonDiscoverableDeviceRegistrationLib|Include/Library/NonDiscoverableDeviceRegistrationLib.h
+
+  ## @libraryclass  Provides services to convert a BMP graphics image to a GOP BLT buffer
+  #  and to convert a GOP BLT buffer to a BMP graphics image.
+  #
+  BmpSupportLib|Include/Library/BmpSupportLib.h
+
+  ## @libraryclass  Provides services to display completion progress when
+  #  processing a firmware update that updates the firmware image in a firmware
+  #  device.  A platform may provide its own instance of this library class to
+  #  customize how a user is informed of completion progress.
+  #
+  DisplayUpdateProgressLib|Include/Library/DisplayUpdateProgressLib.h
+
+  ##  @libraryclass  This library contains helper functions for marshalling and
+  #   registering new policies with the VariablePolicy infrastructure.
+  #
+  VariablePolicyHelperLib|Include/Library/VariablePolicyHelperLib.h
+
+[Guids]
+  gUefiTestPkgTokenSpaceGuid            = { 0x476396af, 0xb9f2, 0x4eb8, {0x94, 0x3d, 0xe0, 0xec, 0x74, 0x56, 0x76, 0x36} }
+
+[Ppis]
+  gEfiTestTempRamSupportPpiGuid         = { 0xdbe23aa9, 0xa345, 0x4b97, {0x85, 0xb6, 0xb2, 0x26, 0xf1, 0x61, 0x73, 0x77} }
+
+[PcdsFixedAtBuild]
+
+  ## This flag is used to control the destination port for PlatformDebugLibIoPort
+  gUefiTestPkgTokenSpaceGuid.PcdDebugIoPort|0x402|UINT16|4
+
+[Protocols]
+gEfiTestDevicePathProtocolGuid          = { 0x095AE571, 0x6D3F, 0x11D2, { 0x8E, 0x39, 0x00, 0xCA, 0xB9, 0x78, 0x72, 0x3B }}

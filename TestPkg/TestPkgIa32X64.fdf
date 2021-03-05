@@ -143,7 +143,7 @@ APRIORI PEI {
 #
 INF  MdeModulePkg/Core/Pei/PeiMain.inf
 INF  MdeModulePkg/Universal/PCD/Pei/Pcd.inf
-INF  MdeModulePkg\Core\DxeIplPeim\DxeIpl.inf
+INF  TestPkg\DxeIplPeim\DxeIpl.inf
 INF UefiCpuPkg\CpuMpPei\CpuMpPei.inf
 
 

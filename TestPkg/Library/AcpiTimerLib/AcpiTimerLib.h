@@ -9,6 +9,7 @@
 #ifndef _ACPI_TIMER_LIB_INTERNAL_H_
 #define _ACPI_TIMER_LIB_INTERNAL_H_
 
+#define ACPI_TIMER_COUNT_SIZE  BIT16
 /**
   Internal function to read the current tick counter of ACPI.
 

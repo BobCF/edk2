@@ -20,7 +20,7 @@ EFI_PEI_TEMPORARY_RAM_SUPPORT_PPI mSecTemporaryRamSupportPpi = {
 EFI_PEI_PPI_DESCRIPTOR  gPrivateDispatchTable[] = {
   {
     EFI_PEI_PPI_DESCRIPTOR_PPI | EFI_PEI_PPI_DESCRIPTOR_TERMINATE_LIST,
-    &gEfiTemporaryRamSupportPpiGuid,
+    &gEfiTestTempRamSupportPpiGuid,
     &mSecTemporaryRamSupportPpi
   }
 };

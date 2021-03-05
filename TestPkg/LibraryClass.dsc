@@ -41,7 +41,7 @@ NvVarsFileLib|TestPkg/Library/NvVarsFileLib/NvVarsFileLib.inf
   FileExplorerLib|MdeModulePkg/Library/FileExplorerLib/FileExplorerLib.inf
   DxeServicesTableLib|MdePkg/Library/DxeServicesTableLib/DxeServicesTableLib.inf
   SortLib|MdeModulePkg/Library/UefiSortLib/UefiSortLib.inf
-  CpuLib|MdePkg/Library/BaseCpuLib/BaseCpuLib.inf
+  CpuLib|TestPkg/Library/BaseCpuLib/BaseCpuLib.inf
   MtrrLib|UefiCpuPkg/Library/MtrrLib/MtrrLib.inf
   FakeLibraryLib|TestPkg/Library/BaseFakeLibraryLib/BaseFakeLibraryLib.inf
   LockBoxLib|MdeModulePkg\Library\LockBoxNullLib\LockBoxNullLib.inf
@@ -107,7 +107,7 @@ NvVarsFileLib|TestPkg/Library/NvVarsFileLib/NvVarsFileLib.inf
   DebugAgentLib|SourceLevelDebugPkg/Library/DebugAgent/SecPeiDebugAgentLib.inf
 !endif
   CpuExceptionHandlerLib|UefiCpuPkg/Library/CpuExceptionHandlerLib/PeiCpuExceptionHandlerLib.inf
-  MpInitLib|UefiCpuPkg/Library/MpInitLib/PeiMpInitLib.inf
+  MpInitLib|TestPkg/Library/MpInitLib/PeiMpInitLib.inf
   PcdLib|MdePkg/Library/PeiPcdLib/PeiPcdLib.inf
 
 
@@ -183,7 +183,7 @@ NvVarsFileLib|TestPkg/Library/NvVarsFileLib/NvVarsFileLib.inf
   DebugAgentLib|SourceLevelDebugPkg/Library/DebugAgent/DxeDebugAgentLib.inf
 !endif
   PciLib|TestPkg/Library/DxePciLibI440FxQ35/DxePciLibI440FxQ35.inf
-  MpInitLib|UefiCpuPkg/Library/MpInitLib/DxeMpInitLib.inf
+  MpInitLib|TestPkg/Library/MpInitLib/DxeMpInitLib.inf
 
 
 [LibraryClasses.common.UEFI_APPLICATION]

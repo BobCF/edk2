@@ -31,6 +31,7 @@
 [Packages]
   MdePkg/MdePkg.dec
   OvmfPkg/OvmfPkg.dec
+  TestPkg/TestPkg.dec
 
 [LibraryClasses]
   BaseMemoryLib
@@ -41,7 +42,7 @@
   DebugPrintErrorLevelLib
 
 [Pcd]
-  gUefiOvmfPkgTokenSpaceGuid.PcdDebugIoPort                ## CONSUMES
+  gUefiTestPkgTokenSpaceGuid.PcdDebugIoPort                ## CONSUMES
   gEfiMdePkgTokenSpaceGuid.PcdDebugClearMemoryValue        ## CONSUMES
   gEfiMdePkgTokenSpaceGuid.PcdDebugPropertyMask            ## CONSUMES
   gEfiMdePkgTokenSpaceGuid.PcdFixedDebugPrintErrorLevel    ## CONSUMES
