@@ -157,7 +157,7 @@
     <LibraryClasses>
       NULL|MdeModulePkg/Library/DeviceManagerUiLib/DeviceManagerUiLib.inf
       NULL|TestPkg/Library/BootManagerUiLib/BootManagerUiLib.inf
-      NULL|MdeModulePkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib.inf
+      NULL|TestPkg/Library/BootMaintenanceManagerUiLib/BootMaintenanceManagerUiLib.inf
 !ifdef $(CSM_ENABLE)
       NULL|TestPkg/Csm/LegacyBootManagerLib/LegacyBootManagerLib.inf
       NULL|TestPkg/Csm/LegacyBootMaintUiLib/LegacyBootMaintUiLib.inf
