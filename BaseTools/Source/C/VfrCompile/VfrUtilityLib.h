@@ -88,6 +88,8 @@ public:
   virtual BOOLEAN Eof(VOID);
   virtual UINT8   Select (IN CHAR8 *, IN EFI_GUID *, IN CHAR8 *Info = NULL);
   virtual UINT8   Write (IN CONST CHAR8, IN CHAR8 *, IN EFI_GUID *, IN CHAR8 *, IN UINT8, IN UINT16, IN UINT32, IN EFI_IFR_TYPE_VALUE);
+  virtual VOID    Dump(IN FILE *);
+  virtual VOID    DumpJson(IN FILE *);
 #if 0
   virtual UINT8   Read (OUT CHAR8 **, OUT CHAR8 **, OUT CHAR8 **, OUT CHAR8 **, OUT CHAR8 **);
 #endif
@@ -176,14 +178,12 @@ private:
 
 class CVfrVarDataTypeDB {
 private:
-  UINT32                    mPackAlign;
   SVfrPackStackNode         *mPackStack;
 
 public:
   EFI_VFR_RETURN_CODE       Pack (IN UINT32, IN UINT8, IN CHAR8 *Identifier = NULL, IN UINT32 Number = DEFAULT_PACK_ALIGN);
 
 private:
-  SVfrDataType              *mDataTypeList;
 
   SVfrDataType              *mNewDataType;
   SVfrDataType              *mCurrDataType;
@@ -199,6 +199,8 @@ private:
   UINT32              GetFieldSize (IN SVfrDataField *, IN UINT32, IN BOOLEAN);
 
 public:
+  UINT32                    mPackAlign;
+  SVfrDataType              *mDataTypeList;
   CVfrVarDataTypeDB (VOID);
   ~CVfrVarDataTypeDB (VOID);
 
@@ -249,6 +251,7 @@ struct SVfrVarStorageNode {
   CHAR8                     *mVarStoreName;
   EFI_VARSTORE_ID           mVarStoreId;
   BOOLEAN                   mAssignedFlag; //Create varstore opcode
+  UINT32                    mAttributes;
   struct SVfrVarStorageNode *mNext;
 
   EFI_VFR_VARSTORE_TYPE     mVarStoreType;
@@ -271,7 +274,7 @@ struct SVfrVarStorageNode {
 
 public:
   SVfrVarStorageNode (IN EFI_GUID *, IN CHAR8 *, IN EFI_VARSTORE_ID, IN EFI_STRING_ID, IN UINT32, IN BOOLEAN Flag = TRUE);
-  SVfrVarStorageNode (IN EFI_GUID *, IN CHAR8 *, IN EFI_VARSTORE_ID, IN SVfrDataType *,IN BOOLEAN, IN BOOLEAN Flag = TRUE);
+  SVfrVarStorageNode (IN EFI_GUID *, IN CHAR8 *, IN EFI_VARSTORE_ID, IN SVfrDataType *,IN BOOLEAN, IN UINT32, IN BOOLEAN Flag = TRUE);
   SVfrVarStorageNode (IN CHAR8 *, IN EFI_VARSTORE_ID);
   ~SVfrVarStorageNode (VOID);
 
@@ -311,7 +314,6 @@ class CVfrDataStorage {
 private:
   UINT32                    mFreeVarStoreIdBitMap[EFI_FREE_VARSTORE_ID_BITMAP_SIZE];
 
-  struct SVfrVarStorageNode *mBufferVarStoreList;
   struct SVfrVarStorageNode *mEfiVarStoreList;
   struct SVfrVarStorageNode *mNameVarStoreList;
 
@@ -332,6 +334,7 @@ private:
                                   OUT EFI_VFR_RETURN_CODE *);
 
 public:
+  struct SVfrVarStorageNode *mBufferVarStoreList;
   CVfrDataStorage ();
   ~CVfrDataStorage ();
 
@@ -347,7 +350,7 @@ public:
 
   EFI_VFR_RETURN_CODE DeclareEfiVarStore (IN CHAR8 *, IN EFI_GUID *, IN EFI_STRING_ID, IN UINT32, IN BOOLEAN Flag = TRUE);
 
-  EFI_VFR_RETURN_CODE DeclareBufferVarStore (IN CHAR8 *, IN EFI_GUID *, IN CVfrVarDataTypeDB *, IN CHAR8 *, IN EFI_VARSTORE_ID, IN BOOLEAN, IN BOOLEAN Flag = TRUE);
+  EFI_VFR_RETURN_CODE DeclareBufferVarStore (IN CHAR8 *, IN EFI_GUID *, IN CVfrVarDataTypeDB *, IN CHAR8 *, IN EFI_VARSTORE_ID, IN BOOLEAN, IN UINT32 Attr = 0, IN BOOLEAN Flag = TRUE);
 
   EFI_VFR_RETURN_CODE GetVarStoreId (IN CHAR8 *, OUT EFI_VARSTORE_ID *, IN EFI_GUID *VarGuid = NULL);
   EFI_VFR_VARSTORE_TYPE GetVarStoreType (IN EFI_VARSTORE_ID);

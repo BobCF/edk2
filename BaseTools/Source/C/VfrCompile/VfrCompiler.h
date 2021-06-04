@@ -33,10 +33,14 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #define VFR_PREPROCESS_FILENAME_EXTENSION   ".i"
 #define VFR_PACKAGE_FILENAME_EXTENSION      ".hpk"
 #define VFR_RECORDLIST_FILENAME_EXTENSION   ".lst"
+#define VFR_RECORDLIST_YAML_FILENAME_EXTENSION   "_debug.yaml"
+#define VFR_RECORDLIST_JSON_FILENAME_EXTENSION   "_debug.json"
 
 typedef struct {
   CHAR8   *VfrFileName;
   CHAR8   *RecordListFile;
+  CHAR8   *RecordListYamlFile;
+  CHAR8   *RecordListJsonFile;
   CHAR8   *PkgOutputFileName;
   CHAR8   *COutputFileName;
   bool    CreateRecordListFile;
@@ -80,6 +84,8 @@ private:
   INT8    SetCOutputFileName(VOID);
   INT8    SetPreprocessorOutputFileName (VOID);
   INT8    SetRecordListFileName (VOID);
+  INT8    SetRecordListYamlFileName (VOID);
+  INT8    SetRecordListJsonFileName (VOID);
 
   VOID    SET_RUN_STATUS (IN COMPILER_RUN_STATUS);
   BOOLEAN IS_RUN_STATUS (IN COMPILER_RUN_STATUS);
@@ -102,6 +108,8 @@ public:
   VOID                GenBinary (VOID);
   VOID                GenCFile (VOID);
   VOID                GenRecordListFile (VOID);
+  VOID                GenRecordListYamlFile (VOID);
+  VOID                GenRecordListJsonFile (VOID);
   VOID                DebugError (IN CHAR8*, IN UINT32, IN UINT32, IN CONST CHAR8*, IN CONST CHAR8*, ...);
 };
 

@@ -285,6 +285,216 @@ CVfrBufferConfig::Select (
   return 1;
 }
 
+VOID
+CVfrBufferConfig::DumpJson (
+  IN FILE         *pFile
+  )
+{
+  SVfrDataType  *pTNode;
+  SVfrDataField *pFNode;
+  SConfigItem *pItem;
+  SConfigInfo *pInfo;
+  SConfigInfo *pInfoIndex = NULL;
+  SVfrVarStorageNode *pVsNode;
+  CHAR8      *DefaultStoreId = "0000";
+  UINT8      indentation = 0;
+
+
+  fprintf (pFile, "{\n");
+  fprintf (pFile, "%*c\"DataStruct\" : {\n", 2 , ' ');
+  for (pTNode = gCVfrVarDataTypeDB.mDataTypeList; pTNode != NULL; pTNode = pTNode->mNext) {
+    fprintf (pFile, "%*c\"%s\" : [\n", 4, ' ',pTNode->mTypeName);
+    for (pFNode = pTNode->mMembers; pFNode != NULL; pFNode = pFNode->mNext) {
+      fprintf (pFile, "%*c{ \n", 6 ,' ');
+      fprintf (pFile,"%*c\"Name\": \"%s\",\n", 8 , ' ', pFNode->mFieldName);
+      if (pFNode->mArrayNum > 0) {
+        fprintf (pFile,"%*c\"Type\": \"%s[%d]\",\n", 8 , ' ', pFNode->mFieldType->mTypeName,pFNode->mArrayNum);
+      } else {
+        fprintf (pFile,"%*c\"Type\": \"%s\",\n", 8 , ' ', pFNode->mFieldType->mTypeName);
+      }
+      fprintf (pFile,"%*c\"Offset\": %d\n", 8 , ' ', pFNode->mOffset);
+
+      if (pFNode->mNext == NULL) {
+        fprintf (pFile, "%*c}\n", 6 ,' ');
+      }
+      else {
+        fprintf (pFile, "%*c},\n", 6 ,' ');
+      }
+    }
+    if (pTNode->mNext == NULL) {
+      fprintf (pFile, "%*c]\n", 4, ' ');
+    }
+    else {
+      fprintf (pFile, "%*c],\n", 4, ' ');
+    }
+  }
+  fprintf (pFile, "%*c},\n", 2, ' ');
+
+  fprintf(pFile, "%*c\"DataStructAttribute\": {\n", 2, ' ');
+  for (pTNode = gCVfrVarDataTypeDB.mDataTypeList; pTNode != NULL; pTNode = pTNode->mNext) {
+    fprintf(pFile, "%*c\"%s\": {\n", 4, ' ', pTNode->mTypeName);
+    fprintf(pFile, "%*c\"Alignment\": %u,\n", 6, ' ',pTNode->mAlign);
+    fprintf(pFile, "%*c\"TotalSize\": %u\n", 6, ' ',pTNode->mTotalSize);
+    if (pTNode->mNext == NULL) {
+      fprintf(pFile, "%*c}\n", 4, ' ');
+    }
+    else {
+      fprintf(pFile, "%*c},\n", 4, ' ');
+    }
+  }
+  fprintf (pFile, "%*c},\n", 2, ' ');
+
+  fprintf (pFile, "%*c\"VarDefine\": {\n", 2, ' ');
+  for (pVsNode = gCVfrDataStorage.mBufferVarStoreList; pVsNode != NULL; pVsNode = pVsNode->mNext) {
+    fprintf (pFile, "%*c\"%s\" : {\n", 4, ' ', pVsNode->mVarStoreName);
+    fprintf (pFile, "%*c\"Type\" : \"%s\",\n", 6, ' ', pVsNode->mStorageInfo.mDataType->mTypeName);
+    fprintf (pFile, "%*c\"Attributes\" : %d\n", 6, ' ', pVsNode->mAttributes);
+    if (pVsNode->mNext == NULL) {
+      fprintf(pFile, "%*c}\n", 4, ' ');
+    }
+    else {
+      fprintf(pFile, "%*c},\n", 4, ' ');
+    }
+  }
+  fprintf (pFile, "%*c},\n", 2, ' ');
+
+  indentation = 0;
+  fprintf (pFile, "%*c\"Data\" : [\n",2, ' ');
+  for (pItem = mItemListHead; pItem!=NULL; pItem = pItem->mNext) {
+    if (pItem->mId != NULL) {
+      DefaultStoreId = pItem->mId;
+    }
+
+    //find the last pInfo whose value is not 0
+    if (pItem->mNext == NULL) {
+      for (pInfo = pItem->mInfoStrList; pInfo != NULL; pInfo = pInfo->mNext) {
+        if(*pInfo->mValue !=0) {
+          pInfoIndex = pInfo;
+        }
+      }
+    }
+    for (pInfo = pItem->mInfoStrList; pInfo != NULL; pInfo = pInfo->mNext) {
+      if (*pInfo->mValue == 0) {
+        continue;
+      }
+      fprintf (pFile, "%*c{\n",4, ' ');
+      fprintf(pFile, "%*c\"VendorGuid\": \"{0x%02x, 0x%02x, 0x%02x, { 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x}}\",\n", 
+      6,
+      ' ',
+      pItem->mGuid->Data1,
+      pItem->mGuid->Data2,
+      pItem->mGuid->Data3,
+      pItem->mGuid->Data4[0],
+      pItem->mGuid->Data4[1],
+      pItem->mGuid->Data4[2],
+      pItem->mGuid->Data4[3],
+      pItem->mGuid->Data4[4],
+      pItem->mGuid->Data4[5],
+      pItem->mGuid->Data4[6],
+      pItem->mGuid->Data4[7]
+      );
+      fprintf (pFile, "%*c\"VarName\": \"%s\",\n", 6, ' ', pItem->mName);
+      fprintf (pFile, "%*c\"DefaultStore\": \"%s\",\n", 6, ' ', DefaultStoreId);
+      fprintf (pFile, "%*c\"Size\": %u,\n", 6, ' ', pInfo->mWidth);
+      fprintf (pFile, "%*c\"Offset\": %u,\n", 6, ' ',pInfo->mOffset);
+      fprintf (pFile, "%*c\"Value\": %u\n", 6, ' ',*pInfo->mValue);
+      if (pItem->mNext == NULL && pInfo == pInfoIndex) {
+        fprintf(pFile, "%*c}\n", 4, ' ');
+      }
+      else {
+        fprintf(pFile, "%*c},\n", 4, ' ');
+      }
+    }
+  }
+  fprintf (pFile, "%*c]\n", 2, ' ');
+
+  fprintf (pFile, "}\n");
+}
+
+VOID
+CVfrBufferConfig::Dump (
+  IN FILE         *pFile
+  )
+{
+  SVfrDataType  *pTNode;
+  SVfrDataField *pFNode;
+  SConfigItem *pItem;
+  SConfigInfo *pInfo;
+  SVfrVarStorageNode *pVsNode;
+  CHAR8      *DefaultStoreId = "0000";
+  UINT8      indentation = 0;
+
+
+  fprintf (pFile, "---\n");
+  fprintf (pFile, "DataStruct :\n");
+  for (pTNode = gCVfrVarDataTypeDB.mDataTypeList; pTNode != NULL; pTNode = pTNode->mNext) {
+    indentation = 2;
+    fprintf (pFile, "%*c%s :\n", indentation, ' ',pTNode->mTypeName);
+    for (pFNode = pTNode->mMembers; pFNode != NULL; pFNode = pFNode->mNext) {
+      indentation = 4;
+      fprintf (pFile, "%*c-\n",indentation,' ');
+      indentation = 6;
+      fprintf (pFile,"%*cName: %s\n", indentation, ' ', pFNode->mFieldName);
+      if (pFNode->mArrayNum > 0) {
+        fprintf (pFile,"%*cType: %s[%d]\n", indentation, ' ', pFNode->mFieldType->mTypeName,pFNode->mArrayNum);
+      } else {
+        fprintf (pFile,"%*cType: %s\n", indentation, ' ', pFNode->mFieldType->mTypeName);
+      }
+      fprintf (pFile,"%*cOffset: %d\n", indentation, ' ', pFNode->mOffset);
+    }
+  }
+
+  fprintf(pFile, "DataStructAttribute: \n");
+  for (pTNode = gCVfrVarDataTypeDB.mDataTypeList; pTNode != NULL; pTNode = pTNode->mNext) {
+    fprintf(pFile, "%*c%s: \n", 2, ' ', pTNode->mTypeName);
+    fprintf(pFile, "%*cAlignment: %u\n", 4, ' ',pTNode->mAlign);
+    fprintf(pFile, "%*cTotalSize: %u\n", 4, ' ',pTNode->mTotalSize);
+  }
+
+  fprintf (pFile, "VarDefine :\n");
+  for (pVsNode = gCVfrDataStorage.mBufferVarStoreList; pVsNode != NULL; pVsNode = pVsNode->mNext) {
+    fprintf (pFile, "%*c%s : \n", 2, ' ', pVsNode->mVarStoreName);
+    fprintf (pFile, "%*cType : %s\n", 4, ' ', pVsNode->mStorageInfo.mDataType->mTypeName);
+    fprintf (pFile, "%*cAttributes : %d\n", 4, ' ', pVsNode->mAttributes);
+  }
+
+  indentation = 0;
+  fprintf (pFile, "Data :\n");
+  for (pItem = mItemListHead; pItem!=NULL; pItem = pItem->mNext) {
+    if (pItem->mId != NULL) {
+      DefaultStoreId = pItem->mId;
+    }
+    for (pInfo = pItem->mInfoStrList; pInfo != NULL; pInfo = pInfo->mNext) {
+      if (*pInfo->mValue == 0) {
+        continue;
+      }
+      indentation = 2;
+      fprintf (pFile, "%*c-\n",indentation, ' ');
+      indentation = 4;
+      fprintf(pFile, "%*cVendorGuid: \"{0x%02x, 0x%02x, 0x%02x, { 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x, 0x%02x}}\"\n", 
+      indentation,
+      ' ',
+      pItem->mGuid->Data1,
+      pItem->mGuid->Data2,
+      pItem->mGuid->Data3,
+      pItem->mGuid->Data4[0],
+      pItem->mGuid->Data4[1],
+      pItem->mGuid->Data4[2],
+      pItem->mGuid->Data4[3],
+      pItem->mGuid->Data4[4],
+      pItem->mGuid->Data4[5],
+      pItem->mGuid->Data4[6],
+      pItem->mGuid->Data4[7]
+      );
+      fprintf (pFile, "%*cVarName: %s\n", indentation, ' ', pItem->mName);
+      fprintf (pFile, "%*cDefaultStore: %s\n", indentation, ' ', DefaultStoreId);
+      fprintf (pFile, "%*cSize: %u\n", indentation, ' ', pInfo->mWidth);
+      fprintf (pFile, "%*cOffset: %u \n", indentation, ' ',pInfo->mOffset);
+      fprintf (pFile, "%*cValue: %u \n", indentation, ' ',*pInfo->mValue);
+    }
+  }
+}
+
 UINT8
 CVfrBufferConfig::Write (
   IN CONST CHAR8         Mode,
@@ -1559,6 +1769,7 @@ SVfrVarStorageNode::SVfrVarStorageNode (
   IN EFI_VARSTORE_ID       VarStoreId,
   IN SVfrDataType          *DataType,
   IN BOOLEAN               BitsVarstore,
+  IN UINT32                 Attributes,
   IN BOOLEAN               Flag
   )
 {
@@ -1582,6 +1793,7 @@ SVfrVarStorageNode::SVfrVarStorageNode (
   }
   mStorageInfo.mDataType   = DataType;
   mAssignedFlag            = Flag;
+  mAttributes              = Attributes;
 }
 
 SVfrVarStorageNode::SVfrVarStorageNode (
@@ -1844,6 +2056,7 @@ CVfrDataStorage::DeclareBufferVarStore (
   IN CHAR8             *TypeName,
   IN EFI_VARSTORE_ID   VarStoreId,
   IN BOOLEAN           IsBitVarStore,
+  IN UINT32            Attr,
   IN BOOLEAN           Flag
   )
 {
@@ -1870,7 +2083,7 @@ CVfrDataStorage::DeclareBufferVarStore (
     MarkVarStoreIdUsed (VarStoreId);
   }
 
-  if ((pNew = new SVfrVarStorageNode (Guid, StoreName, VarStoreId, pDataType, IsBitVarStore, Flag)) == NULL) {
+  if ((pNew = new SVfrVarStorageNode (Guid, StoreName, VarStoreId, pDataType, IsBitVarStore, Attr, Flag)) == NULL) {
     return VFR_RETURN_OUT_FOR_RESOURCES;
   }
 

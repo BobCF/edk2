@@ -205,6 +205,9 @@ CVfrCompiler::OptionInitialization (
   if (SetRecordListFileName () != 0) {
     goto Fail;
   }
+  if (SetRecordListJsonFileName () != 0) {
+    goto Fail;
+  }
   return;
 
 Fail:
@@ -459,6 +462,62 @@ CVfrCompiler::SetRecordListFileName (
   strcpy (mOptions.RecordListFile, mOptions.OutputDirectory);
   strcat (mOptions.RecordListFile, mOptions.VfrBaseFileName);
   strcat (mOptions.RecordListFile, VFR_RECORDLIST_FILENAME_EXTENSION);
+
+  return 0;
+}
+INT8
+CVfrCompiler::SetRecordListYamlFileName (
+  VOID
+  )
+{
+  INTN Length;
+
+  if (mOptions.VfrBaseFileName == NULL) {
+    return -1;
+  }
+
+  Length = strlen (mOptions.OutputDirectory) +
+           strlen (mOptions.VfrBaseFileName) +
+           strlen (VFR_RECORDLIST_YAML_FILENAME_EXTENSION) +
+           1;
+
+  mOptions.RecordListYamlFile = (CHAR8 *) malloc (Length);
+  if (mOptions.RecordListYamlFile == NULL) {
+    return -1;
+  }
+
+  strcpy (mOptions.RecordListYamlFile, mOptions.OutputDirectory);
+  strcat (mOptions.RecordListYamlFile, mOptions.VfrBaseFileName);
+  strcat (mOptions.RecordListYamlFile, VFR_RECORDLIST_YAML_FILENAME_EXTENSION);
+
+
+  return 0;
+}
+INT8
+CVfrCompiler::SetRecordListJsonFileName (
+  VOID
+  )
+{
+  INTN Length;
+
+  if (mOptions.VfrBaseFileName == NULL) {
+    return -1;
+  }
+
+  Length = strlen (mOptions.OutputDirectory) +
+           strlen (mOptions.VfrBaseFileName) +
+           strlen (VFR_RECORDLIST_JSON_FILENAME_EXTENSION) +
+           1;
+
+  mOptions.RecordListJsonFile = (CHAR8 *) malloc (Length);
+  if (mOptions.RecordListJsonFile == NULL) {
+    return -1;
+  }
+
+  strcpy (mOptions.RecordListJsonFile, mOptions.OutputDirectory);
+  strcat (mOptions.RecordListJsonFile, mOptions.VfrBaseFileName);
+  strcat (mOptions.RecordListJsonFile, VFR_RECORDLIST_JSON_FILENAME_EXTENSION);
+
 
   return 0;
 }
@@ -904,6 +963,39 @@ Err1:
   fclose (pInFile);
 }
 
+VOID 
+CVfrCompiler::GenRecordListYamlFile(
+  VOID
+  )
+{
+
+  FILE   *pOutFile2   = NULL;
+  if ((pOutFile2 = fopen (LongFilePath (mOptions.RecordListYamlFile), "w")) == NULL) {
+    DebugError (NULL, 0, 0001, "Error opening the record list file", "%s",mOptions.RecordListYamlFile );
+  }
+  gCVfrBufferConfig.Dump(pOutFile2);
+  fclose (pOutFile2);
+
+  return;
+
+}
+VOID 
+CVfrCompiler::GenRecordListJsonFile(
+  VOID
+  )
+{
+
+  FILE   *pOutFile2   = NULL;
+  if ((pOutFile2 = fopen (LongFilePath (mOptions.RecordListJsonFile), "w")) == NULL) {
+    DebugError (NULL, 0, 0001, "Error opening the record list file", "%s",mOptions.RecordListJsonFile );
+  }
+  gCVfrBufferConfig.DumpJson(pOutFile2);
+  fclose (pOutFile2);
+
+  return;
+
+}
+
 int
 main (
   IN int             Argc,
@@ -921,6 +1013,7 @@ main (
   Compiler.GenBinary();
   Compiler.GenCFile();
   Compiler.GenRecordListFile ();
+  Compiler.GenRecordListJsonFile ();
 
   Status = Compiler.RunStatus ();
   if ((Status == STATUS_DEAD) || (Status == STATUS_FAILED)) {
