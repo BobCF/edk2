@@ -359,6 +359,19 @@ AuthVariableLibInitialize (
     return Status;
   }
 
+  // Create "devAuthBoot" variable with BS+RT attribute set.
+  UINT8 DeviceAuthBootMode = DEVICE_AUTH_BOOT_MODE_ENABLE;
+  Status = AuthServiceInternalUpdateVariable (
+             EFI_DEVICE_AUTH_BOOT_MODE_NAME,
+             &gEfiGlobalVariableGuid,
+             &DeviceAuthBootMode,
+             sizeof (UINT8),
+             EFI_VARIABLE_RUNTIME_ACCESS | EFI_VARIABLE_BOOTSERVICE_ACCESS
+             );
+  if (EFI_ERROR (Status)) {
+    return Status;
+  }
+
   DEBUG ((DEBUG_INFO, "Variable %s is %x\n", EFI_VENDOR_KEYS_VARIABLE_NAME, mVendorKeyState));
 
   AuthVarLibContextOut->StructVersion       = AUTH_VAR_LIB_CONTEXT_OUT_STRUCT_VERSION;
