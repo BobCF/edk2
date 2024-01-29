@@ -2235,7 +2235,7 @@
   #  105: This is the first revision to support 800-155 is related event, such as
   #       EV_EFI_PLATFORM_FIRMWARE_BLOB2 and EV_EFI_HANDOFF_TABLES2.
   # @Prompt TCG Platform Firmware Profile revision.
-  gEfiMdeModulePkgTokenSpaceGuid.PcdTcgPfpMeasurementRevision|0|UINT32|0x00010077
+  gEfiMdeModulePkgTokenSpaceGuid.PcdTcgPfpMeasurementRevision|106|UINT32|0x00010077
 
   ## Specify whether to enable the state of SPDM device authentication and measurement.<BR><BR>
   #  0: Platform Firmware not supports SPDM device authentication and measurement.
