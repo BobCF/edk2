@@ -1,0 +1,25 @@
+  Event:
+    PCRIndex  - 7
+    EventType - 0x800000E3
+    DigestCount: 0x00000001
+    HashAlgo : 0x000C
+    EventData - Type: EV_EFI_SPDM_DEVICE_POLICY
+      VariableName       - B9C2B4F4-BF5F-462D-8ADF-C5C70AC35DAD
+      UnicodeName        - devdb
+
+      EFI_SIGNATURE_LIST :
+        SignatureType       - A5C059A1-94E4-4AA7-87B5-AB155C2BF072
+
+    PCRIndex  - 0x01C40200 (NvIndex)
+    EventType - 0x00000003
+	
+    EventData - Type: EV_NO_ACTION
+      TcgNvIndexInstanceEvent:
+        Signature       - 'NvIndexInstance '
+        Version         - 0x0001
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x000000FF
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000001

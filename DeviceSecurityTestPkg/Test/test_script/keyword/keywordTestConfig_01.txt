@@ -1,0 +1,37 @@
+Event:
+    PCRIndex  - 0x01C40200 (NvIndex)
+    EventType - 0x00000003
+	
+    EventData - Type: EV_NO_ACTION
+      TcgNvIndexInstanceEvent:
+        Signature       - 'NvIndexInstance '
+        Version         - 0x0001
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000003
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000001
+
+ErrorKeyword start:
+    EventData - Type: EV_EFI_SPDM_DEVICE_AUTHORITY
+
+        DescriptionSize - 0x000F
+        Description     - "SPDM CHALLENGE "
+
+        DescriptionSize - 0x0014
+        Description     - "SPDM CHALLENGE_AUTH "
+
+      AuthState         - 0x00000000
+      AuthState         - 0x00000001
+      AuthState         - 0x00000002
+      AuthState         - 0x00000004
+
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_BLOB
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_CONFIG
+
+        DescriptionSize - 0x0016
+        Description     - "SPDM GET_MEASUREMENTS "
+
+        DescriptionSize - 0x0012
+        Description     - "SPDM MEASUREMENTS "

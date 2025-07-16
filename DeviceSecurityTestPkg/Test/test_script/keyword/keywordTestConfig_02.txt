@@ -1,0 +1,176 @@
+Event:
+    PCRIndex  - 0x01C40200 (NvIndex)
+    EventType - 0x00000003
+    DigestCount: 0x00000001
+    HashAlgo : 0x000C
+    EventData - Type: EV_NO_ACTION
+      TcgNvIndexInstanceEvent:
+        Signature       - 'NvIndexInstance '
+        Version         - 0x0001
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000002
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000001
+      SubHeaderUID      - 0x0000000000000000
+      DevicePath        - PciRoot(0x0)/Pci(0x0,0x0)
+      SpdmCertChainSubHeader:
+        SpdmVersion   - 0x0013
+        SpdmSlotId    - 0x00
+        SpdmHashAlgo  - 0x00000001
+
+  Event:
+    PCRIndex  - 2
+    EventType - 0x800000E1
+
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_BLOB
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000000
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000000
+
+      SpdmMeasurementBlockSubHeader:
+        SpdmVersion                      - 0x0013
+        SpdmMeasurementBlockCount        - 0x01
+        SpdmMeasurementHashAlgo          - 0x00000002
+        SpdmMeasurementBlock:
+          Index                          - 0x01
+          MeasurementSpec                - 0x01
+          Measurement:
+            DMTFSpecMeasurementValueType - 0x00
+  Event:
+    PCRIndex  - 2
+    EventType - 0x800000E1
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_BLOB
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000000
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000000
+      SpdmMeasurementBlockSubHeader:
+        SpdmVersion                      - 0x0013
+        SpdmMeasurementBlockCount        - 0x01
+        SpdmMeasurementHashAlgo          - 0x00000002
+        SpdmMeasurementBlock:
+          Index                          - 0x02
+          MeasurementSpec                - 0x01
+          Measurement:
+            DMTFSpecMeasurementValueType - 0x01
+  Event:
+    PCRIndex  - 3
+    EventType - 0x800000E2
+    
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_CONFIG
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000000
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000000
+      
+      SpdmMeasurementBlockSubHeader:
+        SpdmVersion                      - 0x0013
+        SpdmMeasurementBlockCount        - 0x01
+        SpdmMeasurementHashAlgo          - 0x00000002
+        SpdmMeasurementBlock:
+          Index                          - 0x03
+          MeasurementSpec                - 0x01
+          
+          Measurement:
+            DMTFSpecMeasurementValueType - 0x02
+  Event:
+    PCRIndex  - 3
+    EventType - 0x800000E2
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_CONFIG
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000000
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000000
+      SpdmMeasurementBlockSubHeader:
+        SpdmVersion                      - 0x0013
+        SpdmMeasurementBlockCount        - 0x01
+        SpdmMeasurementHashAlgo          - 0x00000002
+        SpdmMeasurementBlock:
+          Index                          - 0x04
+          MeasurementSpec                - 0x01
+          Measurement:
+            DMTFSpecMeasurementValueType - 0x03
+  Event:
+    PCRIndex  - 2
+    EventType - 0x800000E1
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_BLOB
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000000
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000000
+      SpdmMeasurementBlockSubHeader:
+        SpdmVersion                      - 0x0013
+        SpdmMeasurementBlockCount        - 0x01
+        SpdmMeasurementHashAlgo          - 0x00000002
+        SpdmMeasurementBlock:
+          Index                          - 0x10
+          MeasurementSpec                - 0x01
+          Measurement:
+            DMTFSpecMeasurementValueType - 0x87
+  Event:
+    PCRIndex  - 3
+    EventType - 0x800000E2
+    EventData - Type: EV_EFI_SPDM_FIRMWARE_CONFIG
+    TcgDeviceSecurityEvent2:
+      Signature         - 'SPDM Device Sec2'
+      Version           - 0x0002
+      AuthState         - 0x00000000
+      DeviceType        - 0x00000001
+      SubHeaderType     - 0x00000000
+      SpdmMeasurementBlockSubHeader:
+        SpdmVersion                      - 0x0013
+        SpdmMeasurementBlockCount        - 0x01
+        SpdmMeasurementHashAlgo          - 0x00000002
+        SpdmMeasurementBlock:
+          Index                          - 0xFE
+          MeasurementSpec                - 0x01
+          Measurement:
+            DMTFSpecMeasurementValueType - 0x85
+  Event:
+    PCRIndex  - 0x01C40201 (NvIndex)
+    EventType - 0x00000003
+
+    EventData - Type: EV_NO_ACTION
+      TcgNvIndexDynamicEvent:
+        Signature       - 'NvIndexDynamic  '
+        Version         - 0x0001
+        Uid             - 0x0000000000000000
+        DescriptionSize - 0x0016
+        Description     - "SPDM GET_MEASUREMENTS "
+
+  Event:
+    PCRIndex  - 0x01C40201 (NvIndex)
+    EventType - 0x00000003
+
+    EventData - Type: EV_NO_ACTION
+      TcgNvIndexDynamicEvent:
+        Signature       - 'NvIndexDynamic  '
+        Version         - 0x0001
+        Uid             - 0x0000000000000000
+        DescriptionSize - 0x0012
+        Description     - "SPDM MEASUREMENTS "
+
+ErrorKeyword start:
+    EventData - Type: EV_EFI_SPDM_DEVICE_AUTHORITY
+
+        DescriptionSize - 0x000F
+        Description     - "SPDM CHALLENGE "
+
+        DescriptionSize - 0x0014
+        Description     - "SPDM CHALLENGE_AUTH "
+
+      AuthState         - 0x00000001
+      AuthState         - 0x00000004

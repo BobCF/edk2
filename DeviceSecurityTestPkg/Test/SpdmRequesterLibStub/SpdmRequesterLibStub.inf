@@ -1,0 +1,64 @@
+## @file
+#  SPDM library.
+#
+#  Copyright (c) 2020, Intel Corporation. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = SpdmRequesterLibTestStub
+  FILE_GUID                      = FB6024A3-270A-410F-91AB-9E99F05C2A5F
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = SpdmRequesterLib
+
+#
+# The following information is for reference only and not required by the build tools.
+#
+#  VALID_ARCHITECTURES           = IA32 X64 AARCH64
+#
+
+[Sources]
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_challenge.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_common.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_communication.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_encap_certificate.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_encap_challenge_auth.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_encap_digests.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_encap_error.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_encap_key_update.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_encap_request.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_end_session.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_finish.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_get_capabilities.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_get_certificate.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_get_digests.c
+# ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_get_measurements.c
+  libspdm_req_get_measurements_Stub.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_get_version.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_handle_error_response.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_heartbeat.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_key_exchange.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_key_update.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_negotiate_algorithms.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_psk_exchange.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_psk_finish.c
+  ../../../SecurityPkg/DeviceSecurity/SpdmLib/libspdm/library/spdm_requester_lib/libspdm_req_send_receive.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  SecurityPkg/SecurityPkg.dec
+  CryptoPkg/CryptoPkg.dec
+  DeviceSecurityTestPkg/DeviceSecurityTestPkg.dec
+
+[LibraryClasses]
+  SpdmCommonLib
+  SpdmSecuredMessageLib
+  PlatformLibWrapper
+  MemLibWrapper
+
+[Guids]
+  gEfiDeviceSecurityPkgTestConfig    ## CONSUMES
